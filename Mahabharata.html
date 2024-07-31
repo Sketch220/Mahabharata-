@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mahabharata</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .parva-card { 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .parva-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+        }
+        .fade-in-enter-active, .fade-in-leave-active {
+            transition: opacity 0.5s;
+        }
+        .fade-in-enter, .fade-in-leave-to {
+            opacity: 0;
+        }
+        .slide-fade-enter-active {
+            transition: all .3s ease;
+        }
+        .slide-fade-leave-active {
+            transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .slide-fade-enter, .slide-fade-leave-to {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div id="app" class="container mx-auto px-4 py-12">
+        <div class="text-center mb-16">
+            <h1 class="text-5xl md:text-7xl font-bold text-gray-800 mb-4 leading-tight">
+                THE MAHABHARATA
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-600 max-w-2xl mx-auto">
+                An Epic Tale Of Duty, Love, War & Destiny.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div v-for="parva in parvas" :key="parva.id" class="parva-card bg-white rounded-lg shadow-md overflow-hidden">
+                <img :src="parva.imageUrl" :alt="parva.title" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-3">
+                        {{ parva.title }}
+                    </h2>
+                    <button @click.prevent="parva.showSummary = !parva.showSummary" class="text-blue-500 font-medium py-2 px-4 rounded-lg hover:bg-blue-100 transition duration-150 ease-in-out">
+                        {{ parva.showSummary ? 'Hide Summary' : 'Explore' }}
+                    </button>
+                    <transition name="fade-in">
+                        <div v-show="parva.showSummary" class="mt-4 text-gray-700 leading-relaxed">
+                            <p class="mb-3">
+                                {{ parva.summary }}
+                            </p>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li v-for="chapter in parva.chapters" :key="chapter.id">
+                                    <a href="#" @click.prevent="chapter.showDetails = !chapter.showDetails" class="text-blue-500 hover:underline font-medium">
+                                        {{ chapter.title }}
+                                    </a>
+                                    <transition name="slide-fade">
+                                        <div v-show="chapter.showDetails" class="text-gray-700 mt-2">
+                                            <p>{{ chapter.details }}</p>
+                                            <p v-if="chapter.story" class="mt-4 font-semibold">The Story:</p>
+                                            <p v-if="chapter.story" class="mt-2">{{ chapter.story }}</p>
+                                        </div>
+                                    </transition>
+                                </li>
+                            </ul>
+                        </div>
+                    </transition>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12 text-sm text-gray-500">
+            &copy; Ranjit Tripathy (All Rights Reserved) 2024
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                parvas: [
+                    {
+                      id: 1,
+                        title: 'Adi Parva (The Book of the Beginning)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXPacz2umEyRlFPw4mNHrYlr3j9SNlXxZLmg&usqp=CAU',
+                        summary: 'The Adi Parva, the grand prologue of the Mahabharata, unveils the genesis of an epic conflict rooted in the deepest desires and dilemmas of humanity. It delves into the ancestry of the Kuru dynasty, tracing its lineage back to the mythical progenitors of the Lunar Dynasty.  This lineage, fraught with tales of valor, ambition, and sacrifice, lays the foundation for the intricate web of relationships and power struggles that will unfold.  The parva introduces key figures like King Shantanu, a righteous king torn between love and duty; Bhishma, the embodiment of sacrifice and loyalty, who renounces his claim to the throne and vows celibacy to fulfill his father\'s wish; Satyavati, an ambitious fisherwoman who orchestrates her lineage\'s rise to power; and Vyasa, the sage and author of the Mahabharata himself, who intervenes to ensure the continuation of the dynasty.  We witness the birth of Dhritarashtra, born blind, and Pandu, cursed with a debilitating condition, both vying for the throne, foreshadowing the conflict that will engulf their sons.  Central to the Adi Parva is the birth of the Pandavas—Yudhishthira, the epitome of righteousness; Bhima, the embodiment of strength; Arjuna, the master archer; and the twins, Nakula and Sahadeva, renowned for their skill and devotion.  Born to Kunti and Madri through a divine boon, they embody different facets of virtue and valor.  Parallelly, the Kauravas, led by the ambitious and envious Duryodhana, emerge as their counterparts.  The Adi Parva meticulously lays bare the seeds of rivalry and animosity between these cousins, setting the stage for the catastrophic war that will decide the fate of their lineage and shape the very fabric of dharma.',
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Ancestral Tale', 
+                                details: 'This chapter plunges into the mists of time, recounting the mythical origins of the Kuru dynasty, tracing its lineage back to the Moon God himself.  It speaks of ancient kings, their conquests, and their trysts with celestial beings, painting a vivid tapestry of a lineage blessed by divine favor but also shadowed by curses and ambition.  Key figures like King Pururavas and his celestial love, Urvashi; Yayati, the king who exchanged his youth for his son\'s old age; and Nahusha, the king who challenged the gods and was struck down, showcase the interplay of destiny, ambition, and the consequences of unchecked power.',
+                                story: "The lineage begins with the Moon God, Soma, whose son was Budha. Budha's son was Pururavas, a legendary king known for his love affair with the celestial nymph Urvashi. Their passion gave birth to six sons, continuing the lineage. However, tragedy struck when Urvashi, bound by her celestial duties, had to leave Pururavas.  His grief was immense, but their love story became a tale whispered through generations.  Another significant figure is Yayati, a descendant of Pururavas, known for his insatiable desires.  When cursed with premature old age, he struck a deal with his youngest son, Puru, exchanging his youth for his son's.  Puru agreed, showcasing filial piety, and inherited the kingdom.  This act had lasting consequences, shaping the destiny of the Kuru dynasty.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: The Tale of Shantanu and Ganga',
+                                details: 'This chapter introduces King Shantanu, known for his righteousness and prowess, who falls deeply in love with Ganga, the ethereal river goddess.  Their union, shrouded in mystery and bound by a celestial pact, results in the birth of eight sons.  However, Ganga, driven by a solemn oath to liberate her sons from a curse, drowns seven of them, leaving Shantanu heartbroken and bewildered.  Only through Bhishma, the eighth son, does the lineage continue.  Bhishma, however, bears the weight of his brothers\' sacrifice and his mother\'s mysterious departure, foreshadowing the heavy burdens he will carry throughout his life.',
+                                story: "One day, while hunting by the river Ganga, King Shantanu encountered a woman of extraordinary beauty. Captivated, he asked for her hand in marriage.  She agreed but on one condition: he would never question her actions, no matter how strange they seemed. Shantanu, blinded by love, agreed. They married, and she gave birth to a son. However, to Shantanu's horror, she took the infant to the river and drowned him. Bound by his promise, Shantanu remained silent. This continued for seven sons, each time his heart breaking a little more.  Finally, when she was about to drown their eighth son, Shantanu could bear it no more and cried out, breaking his vow.  The woman revealed herself to be Ganga, the river goddess, and explained that her sons were cursed to a short life on Earth. By drowning them, she was liberating them. She then revealed their eighth son, Devavrata, to be a celestial being destined for greatness and left Shantanu, leaving him with a heavy heart and a son who would forever be marked by his mother's actions.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Vow of Bhishma',
+                                details: 'This pivotal chapter revolves around the life-altering vow of Devavrata, later known as Bhishma.  Shantanu, once again smitten by love, desires the hand of Satyavati, a fisherwoman.  However, her father demands that their son inherit the throne, a condition that threatens the claim of Bhishma, the rightful heir.  In an act of unparalleled sacrifice, driven by filial duty and love for his father, Bhishma renounces his claim to the throne and vows to remain celibate throughout his life, ensuring the continuity of the dynasty.  This vow, while noble, casts a long shadow on Bhishma\'s future, shaping his destiny and inextricably linking him to the future conflicts of the Kuru dynasty.',
+                                story: "Years passed, and Shantanu encountered Satyavati, a beautiful fisherwoman, and desired her hand. However, her father stipulated that only her son would inherit the throne. Shantanu was heartbroken as this would disinherit his beloved son, Devavrata.  Witnessing his father's despair, Devavrata, in a selfless act, renounced his claim to the throne and vowed to remain celibate for life, ensuring that no heirs from him would challenge the claim of Satyavati's children.  His sacrifice stunned everyone present.  Impressed by his devotion, the gods granted him the boon of choosing the time of his death.  From that day forward, Devavrata became known as Bhishma, 'the terrible,' for the weight of his vow.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Birth of Chitrangada and Vichitravirya',
+                                details: 'This chapter marks the continuation of the lineage through Satyavati\'s sons, Chitrangada and Vichitravirya.  Chitrangada, a valiant warrior, ascends the throne after Shantanu\'s death but meets an untimely end in battle against a Gandharva king of the same name.  Vichitravirya, too young to rule, is crowned king after his brother\'s death.  However, tragedy strikes again as Vichitravirya, despite his prowess, dies young and childless, leaving the throne without an heir and throwing the future of the dynasty into jeopardy.',
+                                story: "Shantanu and Satyavati had two sons, Chitrangada and Vichitravirya. Chitrangada, the elder, inherited the throne after Shantanu's death. He was a valiant warrior but met his end in a duel with a Gandharva king who bore the same name. Vichitravirya, still a young boy, was then crowned king. Bhishma, true to his vow, ruled as regent, protecting the kingdom and raising his younger brother.  However, fate was cruel; Vichitravirya died young, leaving behind two wives, Ambika and Ambalika, but no heir to the throne.  The dynasty was once again on the verge of extinction.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: Vyasa and the Birth of Dhritarashtra, Pandu, and Vidura',
+                                details: 'This chapter delves into Vyasa\'s pivotal role in preserving the Kuru lineage.  Summoned by his mother, Satyavati, to prevent the dynasty\'s extinction, Vyasa, a powerful sage, agrees to impregnate Vichitravirya\'s widowed queens, Ambika and Ambalika.  From this unconventional union are born Dhritarashtra, born blind due to Ambika\'s fear and aversion, and Pandu, born pale and sickly due to Ambalika\'s pallor from fright.  A maidservant, sent in place of Ambika out of fear, faces Vyasa with composure and gives birth to Vidura, a man destined for wisdom and righteousness.  Thus, the lineage continues, but the circumstances surrounding their births foreshadow the complexities and conflicts that will plague the Kuru dynasty.',
+                                story: "Desperately seeking to preserve the lineage, Satyavati approached her firstborn, Vyasa, a powerful sage, to father children with Vichitravirya's widows. Ambika, upon seeing Vyasa's austere appearance, closed her eyes in fear.  As a result, her son, Dhritarashtra, was born blind. Ambalika, terrified, turned pale, leading to her son, Pandu, being born with a sickly pallor. A maidservant, sent in Ambika's place for the second time, faced Vyasa with composure and gave birth to Vidura, known for his wisdom and righteousness. Thus, the dynasty was saved, but the unusual births of the princes foreshadowed a future fraught with conflict.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: The Reign of Pandu and the Curse',
+                                details: 'This chapter focuses on Pandu, who, despite his physical limitations, ascends the throne after Dhritarashtra\'s blindness disqualifies him.  Pandu, a skilled warrior and a just ruler, brings prosperity to the kingdom.  However, tragedy strikes when, during a hunting expedition, he accidentally kills a sage and his wife, disguised as deer, while they are in the midst of a romantic interlude.  The dying sage, enraged by his unintentional act, curses Pandu, decreeing that if he ever engages in an act of passion with a woman, he will meet his end.  This curse throws Pandu\'s life into turmoil, forcing him to relinquish his kingdom and seek redemption in the wilderness.',
+                                story: "As Dhritarashtra was born blind, Pandu, though physically weaker, ascended the throne. He proved to be a wise and valiant king, loved by his people.  However, his reign was cut short by a tragic incident.  While hunting, Pandu mistakenly killed a sage and his wife, who were disguised as deer.  The dying sage cursed Pandu, stating that if he ever indulged in sensual pleasure, he would die instantly. Devastated, Pandu renounced his kingdom and retreated into the forest with his wives, Kunti and Madri, seeking penance and a way to break the curse.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Birth of the Pandavas',
+                                details: 'This chapter unveils the miraculous births of the Pandava brothers. In the forest, Kunti, Pandu\'s first wife, reveals to her grief-stricken husband that she possesses a boon, granted to her in her youth by Sage Durvasa, to invoke any god and bear his child.  With Pandu\'s consent, yearning for an heir despite the curse, she invokes different deities, giving birth to Yudhishthira, the embodiment of Dharma, from Yama, the god of justice; Bhima, the epitome of strength, from Vayu, the wind god; and Arjuna, the master archer, from Indra, the king of the gods.  Kunti then shares her boon with Madri, Pandu\'s second wife, who invokes the Ashwini Kumaras, the twin physicians of the gods, and gives birth to twin sons, Nakula and Sahadeva, known for their skill and devotion.',
+                                story: "Longing for children, Pandu lamented his fate. Kunti, his wife, revealed a secret. In her youth, she had received a boon from Sage Durvasa, enabling her to invoke any god and bear his child. With Pandu's consent, she invoked Dharma, the god of righteousness, and gave birth to Yudhishthira. She then invoked Vayu, the wind god, and Bhima, the epitome of strength, was born. Finally, invoking Indra, the king of the gods, she gave birth to Arjuna, the master archer. Kunti then shared the mantra with Madri, Pandu's second wife, who invoked the Ashwini Kumaras, giving birth to twins, Nakula and Sahadeva, known for their skill and grace. Thus, the Pandava brothers were born, each embodying divine qualities.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 8, 
+                                title: 'Chapter 8: The Birth of the Kauravas',
+                                details: 'This chapter introduces the Kauravas, the counterparts to the Pandavas in the epic narrative.  In Hastinapura, Dhritarashtra, despite his blindness, ascends the throne after Pandu renounces his kingship.  His wife, Gandhari, a princess from Gandhara, renowned for her piety and devotion, blindfolds herself upon learning of her husband\'s blindness, choosing to share his darkness.  Gandhari, through a boon from Shiva, conceives, and after a long and arduous gestation period, gives birth to a mass of flesh.  Distraught, she is about to discard it when Vyasa intervenes.  He divides the mass into one hundred parts, which develop into one hundred sons, with Duryodhana as the eldest, known for his ambition and envy, and one daughter, Dushala, collectively known as the Kauravas. ',
+                                story: "Meanwhile, in Hastinapur, Dhritarashtra ruled in Pandu's absence. His wife, Gandhari, a princess known for her piety, blindfolded herself upon learning of her husband's blindness, choosing to share his darkness.  Through a boon from Shiva, Gandhari conceived. After an unusually long gestation period, she gave birth to a lump of flesh.  Horrified, Gandhari was about to discard it when Vyasa appeared.  He divided the lump into one hundred and one parts, placing them in pots of ghee.  Over time, these developed into one hundred sons, led by the ambitious Duryodhana, and one daughter, Dushala, collectively known as the Kauravas.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 9, 
+                                title: 'Chapter 9: Seeds of Discord',
+                                details: 'This chapter sets the stage for the epic conflict by highlighting the growing rivalry and animosity between the Pandavas and Kauravas.  Even as children, the differences in their temperaments and ambitions become apparent.  The Pandavas, known for their righteousness, valor, and unity, garner praise and admiration, while the Kauravas, led by the cunning and envious Duryodhana, seethe with resentment.  The chapter portrays incidents that inflame their rivalry, such as Duryodhana\'s attempts to poison Bhima and the Pandavas\' skill in archery, which unsettles the Kauravas.  The seeds of envy, ambition, and resentment are sown, foreshadowing the tumultuous events that will unfold in the following parvas and culminate in the cataclysmic war that will determine their destinies and shape the course of dharma itself.',
+                                story: "As the Pandavas and Kauravas grew up together, their differences became starkly apparent.  The Pandavas, known for their righteousness and valor, were loved by the people.  Bhima, with his incredible strength, excelled in physical feats, often surpassing the Kauravas, much to Duryodhana's resentment.  Arjuna's mastery of archery under their guru, Drona, further fueled Duryodhana's envy.  The rivalry intensified, culminating in Duryodhana's attempt to poison Bhima. However, Bhima survived, his strength enhanced by the poison. These incidents sowed the seeds of discord, foreshadowing the great war that would determine the fate of the Kuru dynasty.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                    },
+                    {
+                              id: 2,
+                        title: 'Sabha Parva (The Book of the Assembly Hall)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR1_RQ-4l27daXf3wneYDjbgm6ahpOb8-MkZGmYe11rq5k18SFX6XVfBY&s=10',
+                        summary: "The Sabha Parva, the second book of the Mahabharata, marks a turning point in the epic, transitioning from the idyllic days of youth and training to the harsh realities of power, politics, and betrayal. This parva revolves around the construction of the magnificent assembly hall in Indraprastha, the newly established capital of the Pandavas, and the events that unfold within its walls, ultimately leading to their exile and the inevitable war.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Palace of Illusions', 
+                                details: 'This chapter unveils the grandeur of Indraprastha, the newly built capital of the Pandavas.  Yudhishthira, guided by the divine architect Vishwakarma, creates a city of unparalleled beauty and prosperity, a testament to the Pandavas’ just and prosperous rule. However, within this magnificent city lies a subtle trap laid by Duryodhana, fueled by his burning envy.  Mayasabha, the grand assembly hall, while a marvel of architecture, is filled with illusions and deceptions designed to disorient and humiliate the Kauravas, highlighting the growing rift and mistrust between the cousins.',
+                                story: "Upon returning to Hastinapur, the Pandavas, with Krishna's guidance, requested their share of the kingdom.  They received a barren wasteland called Khandavaprastha.  With Krishna's help, they transformed it into the magnificent city of Indraprastha, a beacon of prosperity.  Yudhishthira, their righteous leader, commissioned the celestial architect, Maya Danava, to build a grand assembly hall, the likes of which the world had never seen.  This hall, known as Mayasabha, was an architectural marvel, adorned with precious gems and filled with illusions that could bewilder even the most astute observer.  However, this grandeur, a testament to the Pandavas' growing power, only served to deepen Duryodhana's envy.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: The Rajasuya Yagna',
+                                details: 'This chapter marks the peak of the Pandavas’ earthly glory with the performance of the Rajasuya Yagna, a grand sacrifice performed by emperors to assert their sovereignty. Yudhishthira, guided by sages and priests, successfully completes the elaborate rituals, signifying his righteous rule and dominance over other kingdoms. Kings and sages from far and wide attend, offering their allegiance and tribute, further solidifying the Pandavas’ position as the paramount rulers.  However, the splendor of the event and the recognition accorded to Yudhishthira serve only to fuel Duryodhana’s resentment and his determination to bring down his cousins.',
+                                story: "To formally declare their sovereignty, Yudhishthira, with the counsel of Lord Krishna, decided to perform the Rajasuya Yagna, a grand sacrificial ceremony.  Kings and sages from all corners of the land were invited.  The ceremony was a magnificent spectacle, with elaborate rituals and offerings.  Yudhishthira's righteous reign and the Pandavas' prowess were evident to all.  Gifts and tributes flowed into Indraprastha, acknowledging Yudhishthira as the emperor.  However, Duryodhana, witnessing this grand display of power, was consumed by envy.  The sight of his cousins' glory fueled his desire for revenge.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Invitation to the Dice Game',
+                                details: 'This chapter sets in motion the events that will lead to the Pandavas’ downfall. Duryodhana, consumed by envy and goaded by his cunning uncle Shakuni, proposes a game of dice to Yudhishthira. Knowing Yudhishthira’s fondness for gambling, but inability to refuse a challenge, especially from kin, Duryodhana lays a trap, disguised as an invitation to a friendly game. Despite warnings from Vidura and others who sense the malicious intent behind the invitation, Yudhishthira, bound by his sense of duty and dharma, accepts the challenge, setting the stage for a fateful game that will have devastating consequences.',
+                                story: "Unable to bear the Pandavas' success, Duryodhana, egged on by his wicked uncle, Shakuni, devised a plan to humiliate and defeat them.  He proposed a game of dice, knowing Yudhishthira's weakness for gambling.  Despite warnings from Bhishma, Vidura, and others, Yudhishthira, bound by his sense of duty and unable to refuse a challenge, agreed to the game.  The stage was set for a fateful encounter where dharma and honor would be tested.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Game of Dice and Yudhishthira\'s Fall',
+                                details: 'This pivotal chapter narrates the events of the infamous dice game, a game fraught with deceit and manipulation.  Shakuni, a master of deception, employs his loaded dice and cunning tactics to cheat Yudhishthira, who, blinded by his passion for the game and his adherence to the rules of the challenge, falls deeper into the trap.  As the game progresses, Yudhishthira loses his wealth, his kingdom, his brothers, and ultimately, himself, becoming a slave to Duryodhana.  This chapter portrays the tragic consequences of unchecked desire, the seductive power of deceit, and the fragility of even the most righteous when faced with cunning and treachery.',
+                                story: "The dice game commenced in the grand assembly hall, with everyone present as witnesses. Shakuni, with his mastery of trickery, began to win every round.  Yudhishthira, blinded by his sense of duty and honor, continued to play, staking his wealth, his kingdom, and even his brothers, one by one.  He lost each bet, his losses mounting as Shakuni's deceitful tactics took their toll.  Finally, Yudhishthira, desperate to redeem himself, staked himself and lost.  He became Duryodhana's slave, bound to obey his every command.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: Draupadi\'s Humiliation',
+                                details: "This heart-wrenching chapter portrays the nadir of the Pandavas' fortunes and the depths of Duryodhana's cruelty.  Driven by arrogance and a desire to humiliate his rivals, Duryodhana orders Draupadi, Yudhishthira's wife, to be dragged into the assembly hall.  Despite her protests and the pleas of elders like Bhishma and Vidura, she is subjected to unimaginable insults and attempts to disrobe her.  This act of heinous disrespect towards a woman, especially one revered as the common wife of the Pandavas, shocks even the most hardened onlookers. Draupadi, in her moment of despair, appeals to Krishna, who miraculously protects her dignity by providing an endless length of cloth, foiling Duryodhana's attempts to disrobe her.  This act of divine intervention saves Draupadi's honor but further solidifies the Kauravas' transgression, turning the tide of public opinion against them and fueling Draupadi's thirst for justice.",
+                                story: "Blinded by victory and vengeance, Duryodhana ordered Draupadi, Yudhishthira's wife, to be brought to the assembly hall as a slave.  Ignoring the pleas of the elders and Draupadi's own protests, he attempted to disrobe her in front of the entire court, a grave insult to a woman's honor.  As Draupadi prayed to Krishna for help, her saree miraculously became endless, foiling Duryodhana's attempts to humiliate her. This divine intervention saved Draupadi but further enraged the Kauravas, cementing their wickedness in the eyes of everyone present.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: The Pandavas\' Exile',
+                                details: "This chapter marks the beginning of the Pandavas' thirteen-year exile, a direct consequence of the disastrous dice game.  Unable to bear the humiliation and bound by the rules of the game, the Pandavas, accompanied by their loyal wife, Draupadi, are forced to leave Indraprastha and embark on a life in the wilderness.  This chapter portrays their sorrow at leaving their home and kingdom, the pain of separation from their loved ones, and their determination to endure the hardships of exile with resilience and dignity.  It also sets the stage for their adventures and encounters during this period, which will shape their characters and prepare them for the inevitable confrontation that awaits.",
+                                story: "To prevent further conflict, Dhritarashtra intervened and declared that the Pandavas would go into exile for thirteen years, after which their kingdom would be returned.  Bound by their word and defeated, the Pandavas, accompanied by their faithful wife Draupadi, left Indraprastha and embarked on a journey into the forest, their hearts heavy with sorrow and the burning desire for justice.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                   },
+                   {
+                     id: 3,
+                        title: 'Vana Parva (The Book of the Forest)',
+                        imageUrl: 'https://www.wisdomlib.org/uploads/bookheaders/900x515/mahabharata-6223-1-20240325015752.jpg',
+                        summary: "The Vana Parva, the third book in the epic Mahabharata, recounts the twelve years of exile imposed upon the Pandavas and their wife Draupadi after their defeat at the hands of the Kauravas in the dice game. This parva delves into their physical and emotional journey through the wilderness, marked by encounters with sages, celestial beings, and mythical creatures, while they grapple with their loss, seek solace in spirituality, and prepare for the inevitable confrontation with their cousins. The forest, a liminal space between civilization and the unknown, becomes a crucible for the Pandavas, testing their resilience, shaping their characters, and revealing their profound connection to the divine. As they navigate the dangers and challenges of the wilderness, the Pandavas encounter a myriad of fascinating characters and learn invaluable lessons from their experiences. Sages and seers, residing in the depths of the forest, become their mentors, imparting wisdom, sharing ancient tales, and guiding them on their spiritual journeys. These encounters highlight the importance of knowledge, penance, and detachment, preparing the Pandavas for the trials that lie ahead.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: Departure for Exile', 
+                                details: 'The Vana Parva commences with the heart-wrenching departure of the Pandavas from Indraprastha, their beloved capital city. Leaving behind the comforts and grandeur of their palace, they embark on a perilous journey into the unknown, accompanied by their devoted wife, Draupadi. The people of Indraprastha, devastated by the turn of events, bid farewell to their beloved rulers with heavy hearts, lamenting the loss of their righteous kings. The Pandavas, stripped of their royal attire and adorned in simple garments made of bark, face the daunting prospect of twelve long years in exile, filled with uncertainties and challenges. This chapter sets the stage for their physical and emotional journey through the wilderness, where they will be tested like never before.',
+                                story: "The Pandavas, their hearts heavy with sorrow and a burning sense of injustice, bid farewell to their loyal subjects and the grandeur of Indraprastha.  Clad in humble garments made of bark, they embarked on their arduous journey into the forest, accompanied by their devoted wife, Draupadi. Their departure marked the beginning of a new chapter in their lives, one filled with uncertainty, hardship, and the constant threat posed by their vengeful cousins.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: Life in the Kamyaka Forest',
+                                details: 'The Pandavas, guided by the wise Dhaumya, establish their new abode in the dense and mystical Kamyaka Forest. This chapter provides a glimpse into their daily life in exile – their simple dwelling made of leaves and branches, their sustenance gathered from the forest, and their time spent in prayer, meditation, and honing their martial skills.  Despite the hardships, they strive to maintain their dharma, offering hospitality to sages and travelers who cross their path.  The forest, once a symbol of their misfortune, slowly transforms into a sanctuary for their physical and spiritual growth.',
+                                story: "Guided by the sage Dhaumya, the Pandavas reached the Kamyaka Forest, their new home for the next twelve years.  They built a simple hermitage and learned to live off the land, adapting to the rhythms of nature.  Their days were spent in prayer, meditation, and honing their skills in archery and warfare.  Despite the challenges, their commitment to dharma never wavered.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: Encounters with Sages and Celestials',
+                                details: "The Kamyaka Forest becomes a stage for numerous encounters with sages, celestials, and mythical beings, each interaction imparting valuable lessons and shaping the Pandavas' understanding of dharma, karma, and destiny. They meet with revered figures like Rishi Vyasa, their grandfather and the author of the Mahabharata, who offers them solace, wisdom, and glimpses into the future.  They also encounter Lord Shiva, disguised as a Kirata, a tribal hunter, who tests Arjuna's valor and grants him the divine weapon, Pashupatastra. These encounters, while testing their resolve and challenging their beliefs, ultimately strengthen their faith and equip them with the knowledge and blessings needed to overcome future trials.",
+                                story: "The forest was not a barren wasteland but a place teeming with mystical energy.  The Pandavas' exile became a pilgrimage of sorts, as they encountered various sages and celestials who imparted wisdom and tested their resolve.  They met with the likes of Rishi Vyas, their grandfather and the composer of the Mahabharata, who offered them solace and guidance.  Arjuna, the valiant archer, embarked on a penance to please Lord Shiva, who, pleased with his devotion, bestowed upon him the powerful Pashupatastra weapon.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Story of Nala and Damayanti',
+                                details: "Within the depths of the forest, amidst their trials and tribulations, the Pandavas find solace in stories shared by the wise. The tale of Nala and Damayanti, narrated by Rishi Brihadashwa to Yudhishthira, stands out as a poignant story of love, loss, and eventual reunion. This tale, embedded within the larger narrative of the Mahabharata, serves as both a distraction from their present woes and a source of inspiration, highlighting the virtues of patience, perseverance, and unwavering faith, even in the face of adversity.  The story offers valuable lessons about coping with loss, trusting in destiny, and the transformative power of love and forgiveness.",
+                                story: "During their exile, the Pandavas encountered King Nala, who shared his tragic tale of loss and separation from his beloved wife, Damayanti.  This story, filled with twists of fate and profound lessons about love, destiny, and the consequences of one's actions, served as a source of solace and inspiration for the Pandavas, reminding them that even in the darkest of times, hope and righteousness can prevail.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: The Abduction of Draupadi',
+                                details: "This dramatic chapter throws the Pandavas into turmoil once again, testing their limits and challenging their commitment to dharma.  Jayadratha, the king of Sindhu and a Kaurava ally, chances upon Draupadi while she is alone and attempts to abduct her.  Despite her fierce resistance and the timely intervention of Bhima, who rescues her from Jayadratha's clutches, the incident leaves a deep scar on the Pandavas' psyche.  This event highlights their vulnerability in exile, fuels Bhima's rage and thirst for vengeance, and reinforces their determination to reclaim their rightful place and avenge the humiliation inflicted upon them.",
+                                story: "Their exile was not without peril.  Jayadratha, a king aligned with the Kauravas, attempted to abduct Draupadi while she was alone in the forest.  Bhima, with his immense strength, thwarted the abduction and humiliated Jayadratha.  This event further fueled the animosity between the Pandavas and the Kauravas, foreshadowing the inevitable war that loomed large.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: Arjuna\'s Penance and Acquisition of Weapons',
+                                details: "Driven by a thirst for knowledge and the need to prepare for the future conflict, Arjuna, the valiant archer among the Pandavas, embarks on a rigorous penance to please the gods and acquire divine weapons.  He travels to the Himalayas, endures extreme austerities, and ultimately succeeds in gaining the favor of Lord Shiva, who grants him the powerful Pashupatastra. This chapter emphasizes the importance of self-discipline, dedication, and the pursuit of knowledge in the face of adversity.  It also showcases Arjuna's unwavering commitment to his duty and his determination to protect his family and uphold righteousness.",
+                                story: "Driven by the desire to protect his family and reclaim their kingdom, Arjuna, the valiant archer, embarked on a perilous journey to the Himalayas to perform severe penance.  His devotion pleased the gods, and he was granted divine weapons and celestial knowledge, preparing him for the great war that lay ahead.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Kirata Parva',
+                                details: "The Kirata Parva, a significant episode within the Vana Parva, recounts Arjuna's encounter with Lord Shiva, disguised as a Kirata, a tribal hunter.  This chapter, known for its philosophical depth and allegorical significance, tests Arjuna's humility, determination, and understanding of true strength. The encounter culminates in a fierce battle, where Arjuna, initially failing to recognize the divine being before him, eventually realizes the true nature of his opponent. Impressed by Arjuna's valor and humility, Lord Shiva reveals his true form and grants him the Pashupatastra, a powerful weapon that will play a crucial role in the upcoming war.",
+                                story: "Arjuna's most significant test came in the form of a fierce battle with a Kirata, a wild hunter who was none other than Lord Shiva in disguise.  This encounter tested Arjuna's humility and skill.  Recognizing the divine nature of his opponent, Arjuna pleased Shiva, who bestowed upon him the invincible Pashupatastra weapon.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 8, 
+                                title: 'Chapter 8: The Year of Invisibility',
+                                details: 'As the thirteenth year of their exile approaches, the Pandavas face a unique dilemma. The terms of their exile stipulated a year of living incognito, undetected by anyone. To fulfill this condition, they seek refuge in the kingdom of Virata, concealing their true identities and assuming different roles within the royal court. This chapter marks the transition to the Virata Parva, the fourth book in the epic, where the Pandavas will face new challenges and threats.',
+                                story: "As their twelve years of exile neared completion, the Pandavas had to spend one year incognito, according to the terms set by the Kauravas.  They sought refuge in the kingdom of Virata, disguising themselves and assuming various roles within the royal court.  This period tested their patience and forced them to employ cunning and strategy to protect their identities.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                    },
+                    {
+                              id: 4,
+                        title: 'Virata Parva (The Book of Virata)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIVGNbeo8twchEb_FKGS3KgfOKhJ5gpYKH8Q&usqp=CAU',
+                        summary: "The Virata Parva, the fourth book in the epic Mahabharata, recounts the thirteenth year of exile lived by the Pandavas and Draupadi in the kingdom of Virata. This parva marks a turning point in their journey, as they transition from the hardships of the forest to the challenges of living incognito within a royal court.  It's a testament to their resilience, adaptability, and unwavering commitment to fulfilling their destiny. Forced to conceal their true identities to complete their exile, the Pandavas assume different roles within King Virata's court. Yudhishthira, the eldest, becomes Kanka, a dice game expert and entertainer. Bhima, known for his strength, works as Ballava, the head cook. Arjuna, disguised as Brihannala, a eunuch, teaches dance and music to the princesses. Nakula, skilled with horses, becomes Granthika, a caretaker of the royal stables. Sahadeva, adept in cattle herding, serves as Tantipala, a cowherd. Draupadi, disguised as Sairandhri, becomes a maidservant to Queen Sudeshna.  The Virata Parva, while seemingly less dramatic than other parvas, is crucial to the overall narrative of the Mahabharata. It showcases the multifaceted skills of the Pandavas, their ability to adapt to different situations, and their unwavering adherence to dharma even when faced with personal humiliation and danger.  This period of incognito living allows them to observe their enemies, gauge their strength, and prepare for the inevitable confrontation that awaits them.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: Entering the Kingdom of Virata', 
+                                details: "As the thirteenth year of their exile begins, the Pandavas, guided by their wise charioteer Dhaumya, approach the kingdom of Virata. Faced with the challenge of living incognito, they strategize their entry and decide to conceal their identities by assuming different roles within King Virata's court.  This chapter sets the stage for their year of concealed identities, a period fraught with danger, intrigue, and the constant threat of being discovered.",
+                                story: "As the thirteenth year of their exile commenced, the Pandavas reached the kingdom of Virata. To remain undiscovered, they decided to disguise themselves and serve King Virata in various capacities.  Yudhishthira, the eldest, became Kanka, a skilled dice player. Bhima, known for his strength, disguised himself as Ballava, the head cook.  Arjuna, the mighty archer, took on the guise of Brihannala, a eunuch, and became a dance teacher to the princess.  Nakula, skilled with horses, became Granthika, the caretaker of the royal stables. Sahadeva, adept at managing cattle, became Tantipala, a cowherd.  Draupadi, concealing her beauty, became Sairandhri, a maidservant to the queen.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: The Pandavas in Disguise',
+                                details: "This chapter delves into the individual journeys of the Pandavas as they adapt to their new identities and roles within the vibrant and often chaotic court of Virata. Yudhishthira, as Kanka, uses his wisdom and knowledge of dice to gain the king's favor.  Bhima, embracing his role as Ballava, becomes indispensable in the royal kitchen. Arjuna, as Brihannala, navigates the complexities of court life, using his wit and charm to avoid suspicion.  Nakula and Sahadeva diligently perform their duties, blending seamlessly into their surroundings.  Draupadi, however, faces constant challenges as Sairandhri, enduring humiliation and fending off unwanted advances while concealing her true beauty and spirit.",
+                                story: "Life in Virata's court was not without its challenges.  Each Pandava had to carefully maintain their disguise while navigating the complexities of court life.  Yudhishthira, as Kanka, used his wisdom to win the king's favor, while Bhima, as Ballava, impressed everyone with his culinary skills.  Arjuna, as Brihannala, had to carefully conceal his warrior skills and adapt to the role of a dance teacher.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: Kichaka\'s Infatuation and Doom',
+                                details: "This pivotal chapter unveils one of the most dramatic events of the Virata Parva – Kichaka's infatuation with Draupadi and his eventual demise at the hands of Bhima. Kichaka, the arrogant and powerful commander-in-chief of Virata's army, becomes smitten by Draupadi's beauty, unaware of her true identity.  Despite her repeated rejections and attempts to reason with him, Kichaka persists in his advances, ultimately leading to a confrontation that exposes Bhima's true strength and sets in motion a chain of events that threaten to expose the Pandavas' true identities.",
+                                story: "Their time in hiding was disrupted when Kichaka, the arrogant commander of Virata's army, became infatuated with Draupadi, unaware of her true identity.  Draupadi, unable to reveal her true self, confided in Bhima.  Enraged by Kichaka's advances, Bhima, in a display of immense strength, killed Kichaka, throwing the court into turmoil.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Cattle Raid of Virata',
+                                details: "This chapter highlights the military prowess of the Pandavas, albeit concealed under their assumed identities.  Susharma, the king of Trigarta, aided by the Kauravas, launches a massive cattle raid on Virata's kingdom.  With the Virata's army weakened and demoralized after Kichaka's death, the kingdom faces a formidable threat.  It's in this hour of need that the Pandavas, bound by their oath to serve King Virata, step forward, albeit discreetly, to defend their host kingdom.",
+                                story: "Taking advantage of the turmoil, the Kauravas, along with their allies, launched an attack on Virata's kingdom.  With Virata's army weakened, the disguised Pandavas stepped forward to defend their host.  Arjuna, unable to reveal his true identity, requested Prince Uttara, the king's son, to be his charioteer.  In a breathtaking display of skill, Arjuna single-handedly defeated the Kaurava army, protecting Virata's kingdom.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: Arjuna\'s Exploits as Brihannala',
+                                details: "Even in disguise as Brihannala, Arjuna's skills as a warrior prove indispensable.  He guides Prince Uttara, initially hesitant and inexperienced, in the battle against Susharma and the Kauravas. This chapter showcases Arjuna's strategic brilliance as he employs his knowledge of warfare and his divine weapons to secure victory for Virata. The chapter culminates in a thrilling duel between Arjuna and Karna, one of the Kaurava brothers, offering a glimpse into the epic battles that will unfold in the Kurukshetra War.",
+                                story: "This victory marked the end of their exile.  The Pandavas revealed their true identities to the astonished court of Virata.  Their year of incognito living had come to an end, and the stage was set for the final showdown with the Kauravas.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: The Pandavas Reveal Themselves',
+                                details: "With their year of incognito living complete, the Pandavas choose the auspicious occasion of a celebratory gathering to reveal their true identities to the astonished court of Virata.  This chapter marks the end of their exile and sets the stage for the upcoming war.  The revelation sends shockwaves through the kingdom as the Pandavas, once thought to be lost, reemerge, stronger and more determined than ever to reclaim their rightful place.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                    },
+                    {
+                        id: 5,
+                        title: 'Udyoga Parva (The Book of Efforts)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPPqGlB3kggF99LwXzU4bzYWtI2fr2lQgmbw&usqp=CAU',
+                        summary: "The Udyoga Parva, the fifth book in the epic Mahabharata, is aptly named as it narrates the extensive efforts made to avert the catastrophic Kurukshetra War. It marks a crucial turning point in the epic, where diplomacy and peace take center stage, albeit temporarily, before the inevitable descent into war.  This parva captures the tension, anticipation, and moral dilemmas that grip both the Pandavas and the Kauravas as they grapple with the impending conflict.  With the Pandavas' return from exile, the demand for their rightful share of the kingdom becomes unavoidable.  Krishna, the divine strategist and charioteer, emerges as the key mediator, undertaking a peace mission to Hastinapura, the Kaurava capital, to negotiate a settlement and prevent the war.  The Udyoga Parva is a study in contrasts. It portrays the righteous resolve of the Pandavas, willing to exhaust all avenues of peace, juxtaposed against the Kauravas' arrogance and insatiable greed, making war seem like the only option.  This parva sets the stage for the epic battle by showcasing the gathering of allies, the strategies devised, and the emotional turmoil that grips the characters on the brink of a war that will change the course of their lives and shape the destiny of their kingdoms.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: Krishna\'s Peace Mission', 
+                                details: "Realizing the gravity of the situation, Krishna, the divine statesman and diplomat, takes it upon himself to broker peace between the Pandavas and the Kauravas. This chapter sets the stage for Krishna's pivotal role as a mediator, highlighting his unwavering commitment to dharma and his strategic brilliance in navigating the complexities of politics and war.  His journey to Hastinapura, the Kaurava capital, is fraught with tension and uncertainty as he walks a tightrope between two warring factions, aiming to avert a catastrophic conflict.",
+                                story: "Following the Pandavas' return from exile, tensions between them and the Kauravas reached a boiling point.  Krishna, the wise and compassionate leader, took it upon himself to travel to Hastinapura, the Kaurava capital, as an envoy of peace.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2:  The Assembly at Hastinapura',
+                                details: "Krishna arrives at Hastinapura, and the stage is set for a grand assembly where he presents the Pandavas' case before the Kaurava court.  This chapter is a masterclass in diplomacy and political maneuvering.  Krishna, with his eloquent arguments and understanding of dharma, exposes the Kauravas' injustices and appeals to their sense of reason and righteousness.  However, his efforts are met with resistance from Duryodhana, the eldest Kaurava, blinded by ambition and driven by hatred for the Pandavas.",
+                                story: "In the grand assembly of Hastinapura, Krishna pleaded with the Kauravas to return the Pandavas' rightful land.  He argued for peace, emphasizing the futility and destruction that war would bring.  However, Duryodhana, fueled by jealousy and a thirst for power, refused to yield.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: Duryodhana\'s Refusal and Krishna\'s Warning',
+                                details: "Duryodhana, fueled by his ambition and manipulated by his uncle Shakuni, vehemently refuses Krishna's peace proposal, rejecting any compromise that would require him to relinquish control. This chapter highlights the stark contrast between Krishna's unwavering commitment to dharma and Duryodhana's descent into the depths of adharma, driven by greed and envy.  Krishna, in a powerful display of his divine form, warns Duryodhana of the inevitable consequences of his actions, foreshadowing the destruction and sorrow that war would unleash.",
+                                story: "Duryodhana's obstinate refusal to negotiate pushed the kingdoms closer to war.  Krishna, deeply saddened by the impending conflict, revealed his divine form to Duryodhana, a final attempt to convince him of the devastating consequences of war.  Despite this divine intervention, Duryodhana remained resolute in his decision.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: Preparations for War',
+                                details: "With diplomacy failing, both sides begin preparations for the inevitable war. The Udyoga Parva shifts its focus to the strategic planning and military buildup that precedes the Kurukshetra War.  Kings and warriors from across Bharatvarsha are summoned, alliances are forged, and battle strategies are devised.  This chapter showcases the scale and magnitude of the impending war, as the narrative captures the movement of armies, the sharpening of weapons, and the growing tension that engulfs the land.",
+                                story: "With the failure of Krishna's peace mission, both the Pandavas and the Kauravas began preparations for the inevitable war.  Armies were assembled, alliances were forged, and the land braced itself for the devastating conflict that would decide the fate of kingdoms.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: Choosing Sides',
+                                details: "As the drums of war grow louder, kings and warriors across Bharatvarsha are forced to choose sides in the conflict. This chapter delves into the complexities of alliances and loyalties as the narrative explores the motivations and moral dilemmas faced by those drawn into the conflict.  Some, bound by duty or driven by ambition, align themselves with the Kauravas, while others, recognizing the righteousness of the Pandavas' cause, pledge their support to dharma.",
+                                story: "The impending war divided the land, with kingdoms forced to choose sides.  The Pandavas, known for their righteousness, garnered the support of many kings who believed in their cause.  The Kauravas, driven by ambition and power, amassed a formidable force as well.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6:  Krishna\'s Vow and Arjuna\'s Despair',
+                                details: "Krishna, bound by his vow not to take up arms in the war, offers his vast army to Duryodhana while offering himself as a charioteer to Arjuna. This pivotal moment highlights Krishna's strategic brilliance and his unwavering support for Arjuna, even without wielding a weapon.  Arjuna, overwhelmed by the prospect of fighting his own kin, falls into despair, questioning the purpose of a war that would inevitably lead to bloodshed and the destruction of families.  Krishna, in a profound discourse, guides Arjuna out of his despair, imparting the wisdom of the Bhagavad Gita.",
+                                story: "Krishna, bound by a vow not to take up arms, offered his vast army to the Kauravas and himself, unarmed, as a charioteer to Arjuna.  Arjuna, overwhelmed by the prospect of fighting his own kin, was overcome with grief and questioned the point of such a destructive war.  This existential crisis and Krishna's subsequent guidance form the heart of the Bhagavad Gita, a timeless discourse on duty, dharma, and the true nature of reality.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Eve of War',
+                                details: "The Udyoga Parva concludes with an atmosphere of anticipation and dread as both armies stand poised on the brink of battle. The narrative paints a vivid picture of the battlefield – Kurukshetra – the sacred ground where the fate of kingdoms and the course of history will be decided.  This chapter sets the stage for the epic confrontation, leaving the reader on a cliffhanger, eagerly anticipating the events that will unfold in the following parvas.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                },
+                {
+                  id: 6,
+                        title: 'Bhishma Parva (The Book of Bhishma)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU7QEWRt2cTFleh7QXd9J5_cQNPQtrRDklreJsgtLcJilv8RXj7NW3k-J7&s=10',
+                        summary: "The Bhishma Parva, the sixth book in the epic Mahabharata, marks the beginning of the devastating Kurukshetra War and centers around the formidable warrior Bhishma, the grandsire of the Kuru clan. This parva is a testament to Bhishma's unwavering loyalty, his unparalleled skill as a warrior, and his tragic fate, caught in the crossfire of a war he desperately tried to prevent. As the two armies face each other on the battlefield of Kurukshetra, Bhishma, bound by his oath to protect the throne of Hastinapura, finds himself leading the Kaurava army, even though his heart leans towards the righteous cause of the Pandavas.  The Bhishma Parva is replete with epic battles, heroic feats, and poignant moments of sacrifice and loss.  It witnesses the valor of warriors like Arjuna, Abhimanyu, and Bhishma himself, who single-handedly holds off the Pandava army for ten days.  This parva also highlights the horrors of war, as countless soldiers perish on the battlefield, and the emotional toll it takes on those forced to witness the bloodshed.  Central to the Bhishma Parva is the poignant tale of Bhishma's fall.  Knowing his invincibility poses the greatest threat to the Pandavas, Bhishma reveals the secret to his downfall, allowing Arjuna, his beloved grandnephew, to strike him down with a heavy heart. As Bhishma lies on a bed of arrows, he imparts wisdom and knowledge to Yudhishthira, the eldest Pandava, on dharma, statecraft, and the duties of a righteous king.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The War Begins', 
+                                details: "With all attempts at peace having failed, the two armies, led by Bhishma and Yudhishthira, stand poised on the battlefield of Kurukshetra. This chapter sets the stage for the epic clash, capturing the tension, anticipation, and dread that grip both sides as the conch shells announce the commencement of the war.  The narrative vividly describes the initial skirmishes, the clash of chariots, and the shower of arrows that mark the beginning of the eighteen-day battle that will decide the fate of kingdoms.",
+                                story: "The first day of the war began with the deafening sound of conch shells as both armies, arrayed in formidable formations, faced each other across the battlefield of Kurukshetra.  Bhishma, the venerable warrior, led the Kaurava army, while Yudhishthira, the eldest Pandava, commanded their forces.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2:  Bhishma\'s Vow and Arjuna\'s Reluctance',
+                                details: "As the battle commences, Arjuna, overwhelmed by the prospect of fighting his own kin, especially his beloved grandfather Bhishma, hesitates to unleash his full fury. This chapter highlights the emotional turmoil and moral dilemmas faced by warriors caught in the crossfire of duty and love.  Krishna, in a powerful discourse, reminds Arjuna of his dharma as a warrior and the necessity of fulfilling his duty, even if it means battling those he holds dear.",
+                                story: "On seeing Bhishma, the grandsire he revered, leading the enemy army, Arjuna's resolve crumbled.  Overwhelmed by the thought of raising his bow against his own kin, he hesitated.  Krishna, understanding Arjuna's dilemma, delivered the timeless wisdom of the Bhagavad Gita, reminding him of his duty as a warrior and the impermanence of the physical body.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The First Ten Days of War',
+                                details: "The Bhishma Parva recounts the first ten days of the Kurukshetra War, with Bhishma leading the Kaurava army with unmatched valor.  These chapters are replete with descriptions of fierce battles, heroic duels, and strategic maneuvers as both sides fight with unwavering determination.  The narrative highlights the prowess of warriors on both sides, their skill with weapons, and their unwavering courage in the face of death.  Despite their valiant efforts, the Pandavas find it impossible to overcome the invincible Bhishma.",
+                                story: "The first ten days of the war witnessed fierce battles and unparalleled valor.  Bhishma, a warrior of unmatched skill, remained an insurmountable obstacle for the Pandavas.  His arrows rained down upon the Pandava army, decimating their ranks.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Fall of Bhishma',
+                                details: "Realizing that Bhishma's invincibility poses the greatest threat to their victory, the Pandavas, guided by Krishna's strategy, seek a way to neutralize the formidable warrior.  Krishna reminds them of Bhishma's vow never to fight a woman or someone who was once a woman.  This leads to the poignant moment when Shikhandi, a warrior born female but later transformed into a male, is positioned in front of Arjuna.  Honoring his vow, Bhishma lowers his weapons, allowing Arjuna to strike him down with a shower of arrows.  This pivotal chapter marks the turning point of the war, as the Kauravas lose their most formidable warrior.",
+                                story: "Desperate to overcome Bhishma, the Pandavas sought Krishna's guidance.  Krishna devised a strategy, knowing Bhishma's vow never to harm a woman.  Shikhandi, who was born female but later became male, was positioned before Bhishma.  Honoring his vow, Bhishma lowered his weapons, and Arjuna, overcome with sorrow, pierced him with arrows.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: Bhishma on the Bed of Arrows',
+                                details: "Mortally wounded, Bhishma falls upon a bed of arrows, yet his life force sustains him.  This poignant chapter highlights Bhishma's extraordinary will and his control over his own death.  Refusing to die until the time he deems fit, Bhishma lies on the battlefield, his body pierced with arrows, becoming a symbol of sacrifice and steadfast adherence to one's dharma.",
+                                story: "Bhishma, pierced by countless arrows, fell from his chariot.  However, his life force was such that he remained alive, supported by the very arrows that wounded him.  Lying on a bed of arrows, he chose to postpone his death until the moment of his choosing.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6:  Bhishma\'s Final Discourse',
+                                details: "As Bhishma lies on the bed of arrows, King Yudhishthira, consumed by guilt and seeking guidance, approaches his dying grandsire.  Bhishma, in a series of discourses, imparts wisdom on dharma, kingship, statecraft, and the principles of a righteous life.  This chapter, known as the Shanti Parva (The Book of Peace), within the Bhishma Parva, stands as a philosophical and moral treatise, offering timeless lessons on ethics, morality, and the path to liberation.",
+                                story: "From his bed of arrows, Bhishma imparted profound wisdom to Yudhishthira on dharma, kingship, and the path to liberation.  These teachings, known as the Shanti Parva or the Book of Peace, provided solace and guidance to the grieving Pandava.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Passing of Bhishma',
+                                details: "With the winter solstice arriving, Bhishma, choosing his own time of departure, withdraws his life force and ascends to heaven. This chapter marks the end of an era, as the Kuru clan bids farewell to its patriarch, a warrior who embodied both strength and righteousness.  The Bhishma Parva concludes with a somber tone, foreshadowing the further trials and tribulations that await the Pandavas in their quest for dharma and justice.",
+                                story: "As the winter solstice arrived, Bhishma, after imparting his final words of wisdom, left his mortal body and ascended to heaven.  His death marked the end of an era, leaving a void in the hearts of both the Pandavas and the Kauravas.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                              id: 7,
+                        title: 'Drona Parva (The Book of Drona)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR85uBDRggP2sbHkqA8VmvRm94NIgfDPW_Grw&usqp=CAU',
+                        summary: "The Drona Parva, the seventh book in the epic Mahabharata, marks a period of intense warfare, strategic brilliance, and tragic losses, with Drona, the revered teacher of both the Pandavas and Kauravas, taking command of the Kaurava army.  This parva showcases Drona's unparalleled skills as a warrior, his unwavering loyalty to his oath, and the heart-wrenching circumstances that lead to his demise.  With Bhishma's fall, Drona's appointment as the commander-in-chief injects renewed vigor into the Kaurava army.  Drona, determined to secure victory for his disciples, unleashes his formidable skills on the battlefield, causing significant casualties on the Pandava side.  The Drona Parva is a testament to the cyclical nature of violence and the tragic consequences of war. It depicts how even the most righteous individuals can be caught in the web of duty and loyalty, leading to actions that result in immense sorrow and loss.  Central to this parva is the tragic death of Abhimanyu, Arjuna's son. Trapped within the Chakravyuha formation by Drona and other Kaurava warriors, the young and valiant Abhimanyu fights bravely but is unfairly outnumbered and overwhelmed.  His death becomes a turning point in the war, igniting Arjuna's fury and setting in motion a series of events that ultimately lead to Drona's downfall.  The Drona Parva also showcases the emotional depth and complexity of characters like Arjuna, torn between his duty as a warrior and his grief over the loss of his son, and Drona, whose unwavering commitment to his oath and his students blinds him to the true meaning of dharma.  Drona's death, orchestrated through a combination of strategy and deceit, highlights the moral ambiguities of war and raises questions about the means justifying the ends.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: Drona Takes Command', 
+                                details: "Following Bhishma's fall, the mantle of leadership falls upon Drona, the revered teacher of both the Pandavas and Kauravas.  This chapter highlights the respect and awe Drona commands, his unparalleled knowledge of warfare, and his determination to secure victory for his disciples, the Kauravas.  His appointment as the commander-in-chief instills fear in the Pandava ranks, as they brace themselves for the challenges posed by their former guru.",
+                                story: "With Bhishma's departure, the Kauravas turned to their next formidable warrior - Drona, the master archer and strategist, to lead their army.  Drona, bound by his loyalty to the throne of Hastinapura, accepted the responsibility.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2:  Drona\'s Vow and the Chakravyuha',
+                                details: "Driven by his desire to capture Yudhishthira and secure victory for the Kauravas, Drona devises a formidable battle formation known as the Chakravyuha.  This complex, swirling formation proves impenetrable, trapping the Pandava forces and putting them at a significant disadvantage.  Drona's vow to capture Yudhishthira alive becomes the driving force behind his strategies, as he unleashes his full military might on the Pandava army.",
+                                story: "Drona, eager to bring a swift end to the war, devised a nearly impenetrable battle formation known as the Chakravyuha.  This swirling formation, designed to trap and confuse the enemy, proved to be a formidable challenge for the Pandavas.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Trapping of Abhimanyu',
+                                details: "Arjuna, the only warrior capable of breaking the Chakravyuha, is lured away from the main battlefield by a Kaurava strategy, leaving the Pandava army vulnerable.  Abhimanyu, Arjuna's young and valiant son, steps forward, knowing how to enter the formation but not how to exit.  Despite his courage and skill, Abhimanyu finds himself trapped within the Chakravyuha, surrounded by multiple Kaurava warriors, including Drona.",
+                                story: "Arjuna, the only warrior capable of countering Drona's Chakravyuha, was lured away from the main battlefield.  Abhimanyu, his young and brave son, volunteered to breach the formation, though he only knew how to enter, not exit.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Death of Abhimanyu',
+                                details: "This heart-wrenching chapter describes the heroic yet tragic battle of Abhimanyu against overwhelming odds.  Surrounded and outnumbered within the Chakravyuha, the young warrior fights bravely, holding off the Kaurava warriors with skill and determination.  However, he is eventually overwhelmed and unfairly killed, breaking the rules of war.  Abhimanyu's death becomes a turning point in the war, igniting Arjuna's fury and driving him to seek revenge against those responsible for his son's demise.",
+                                story: "Trapped within the Chakravyuha, Abhimanyu fought with unparalleled bravery and skill, holding off the Kaurava warriors single-handedly for a time.  However, overwhelmed by the sheer number of his opponents and attacked unfairly, the young hero met a tragic end.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: Arjuna\'s Wrath and the Fall of Jayadratha',
+                                details: "Consumed by grief and rage over Abhimanyu's death, Arjuna vows to avenge his son, taking a terrifying oath to kill Jayadratha, the Sindhu king who played a crucial role in Abhimanyu's demise, before sunset the next day.  This chapter captures the intensity of Arjuna's wrath, his unwavering determination to fulfill his vow, and the fear it strikes in the hearts of the Kauravas.",
+                                story: "The news of Abhimanyu's death shattered Arjuna.  Consumed by grief and rage, he vowed to avenge his son's death, swearing to kill Jayadratha, the one responsible for Abhimanyu's entrapment, before sunset the next day.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6:  The Death of Drona',
+                                details: "With Arjuna's wrath threatening to decimate the Kaurava army, Drona's resolve begins to waver.  The Pandavas, recognizing the depth of Drona's affection for his son Ashwatthama, devise a strategy to exploit this vulnerability.  Spreading a rumor about Ashwatthama's death, they lead Drona to believe his son has been killed.  Heartbroken and despairing, Drona loses his will to fight, lays down his weapons, and sits in meditation.  Taking advantage of this moment, Dhristadyumna, driven by revenge for his father's death, beheads Drona.  Drona's death, shrouded in deceit and tragedy, becomes a testament to the complexities of war and the moral dilemmas it presents.",
+                                story: "To overcome the invincible Drona, the Pandavas resorted to a deceptive strategy.  Knowing Drona's deep love for his son, Ashwatthama, they spread a rumor of Ashwatthama's death.  Heartbroken and believing his son to be dead, Drona lost his will to fight.  In this vulnerable moment, Drona was slain, marking a significant turning point in the war.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Aftermath',
+                                details: "The Drona Parva concludes with a sense of loss and devastation as the war continues to claim countless lives.  Drona's death, while a victory for the Pandavas, comes at a heavy cost, highlighting the moral complexities of war and the tragic consequences of violence.  The narrative sets the stage for the next phase of the war, with the Kauravas reeling from their losses and the Pandavas grappling with the emotional toll of the conflict.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                             id: 8,
+                        title: 'Karna Parva (The Book of Karna)',
+                        imageUrl: 'https://images.playground.com/9794b648598f416e8844887c7c8ef74a.jpeg',
+                        summary: "The Karna Parva, the eighth book in the epic Mahabharata, marks a pivotal shift in the Kurukshetra War, focusing on Karna, the tragic hero and the most formidable warrior on the Kaurava side.  This parva explores Karna's complex character, his unwavering loyalty to Duryodhana, his unparalleled skills as an archer, and the series of curses that ultimately lead to his downfall.  With Drona's death, Karna, bound by his oath and loyalty, steps forward to lead the demoralized Kaurava army.  Despite carrying the weight of his birth secret and the numerous curses that have plagued his life, Karna faces the Pandava army with unwavering determination and courage.  The Karna Parva is a poignant exploration of fate, free will, and the complexities of dharma.  It highlights the tragic irony of Karna's life, a man born with divine potential but forced to navigate a path laden with obstacles and misfortunes.   The parva is replete with epic battles, heroic duels, and acts of extraordinary valor, showcasing the military prowess of warriors on both sides.  Karna's duels with Arjuna, filled with breathtaking archery skills and fueled by years of rivalry, represent the pinnacle of martial prowess and form the heart of this parva.  The narrative masterfully depicts Karna's internal struggles as he battles not only external enemies but also the inner turmoil arising from his knowledge of his true lineage and the sacrifices he has made in the name of friendship and loyalty.  The Karna Parva reaches its tragic climax with Karna's death at the hands of Arjuna.  Weakened by curses and bound by his principles, Karna faces his fate with stoic acceptance, dying a hero's death on the battlefield.  His death marks a turning point in the war, signifying the inevitable victory of the Pandavas and the impending downfall of the Kauravas.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: Karna Takes Command', 
+                                details: "With Drona's death casting a shadow of despair over the Kaurava army, Karna, the only warrior deemed capable of matching Arjuna's prowess, is appointed as the commander-in-chief. This chapter marks a significant shift in the narrative, focusing on Karna's leadership, his strategic brilliance, and the challenges he faces in rallying the demoralized Kaurava forces.",
+                                story: "The death of Drona left the Kauravas disheartened.  Duryodhana, desperate to salvage the situation, turned to Karna, the mighty warrior who had been their steadfast ally throughout the war.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2:  Karna\'s Valor and the Battle Rages On',
+                                details: "Under Karna's command, the Kaurava army experiences a resurgence, as his strategic brilliance and martial prowess pose significant challenges to the Pandava forces.  This chapter depicts Karna's valor on the battlefield, his mastery of celestial weapons, and his unwavering determination to secure victory for Duryodhana.",
+                                story: "As the new commander-in-chief, Karna unleashed his fury upon the Pandava army.  His skill with celestial weapons was unmatched, and for a time, he turned the tide of the war in favor of the Kauravas.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3:  Krishna\'s Counsel and the Revelation of Karna\'s Identity',
+                                details: "As the war progresses, Krishna, aware of Karna's true lineage as the eldest Pandava brother, attempts to sway Karna to the side of dharma by revealing his true identity.  Krishna's counsel highlights the tragic irony of Karna's life, his misplaced loyalty, and the opportunity to rectify past injustices by uniting with his brothers.  Karna, torn between his duty to Duryodhana, who had befriended him when he was ostracized, and the pull of his bloodline, faces an agonizing dilemma.",
+                                story: "Krishna, knowing the secret of Karna's birth and his true lineage as the eldest Pandava, approached Karna and revealed his true identity.  Krishna urged Karna to abandon Duryodhana and join his brothers.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4:  Karna\'s Choice and the Curse of Parasurama',
+                                details: "Despite knowing the truth of his birth and the opportunity to claim his rightful place among the Pandavas, Karna remains steadfast in his loyalty to Duryodhana, choosing to honor his friendship over blood ties.  This decision, driven by Karna's unwavering principles, seals his fate.  The chapter also recounts the curse of Parasurama, Karna's guru, who had bestowed upon him the knowledge of celestial weapons, unaware of Karna's Kshatriya lineage.  The curse dictates that Karna will forget the incantations of his most potent weapons at the crucial moment of his final battle, foreshadowing his tragic end.",
+                                story: "Torn between his loyalty to Duryodhana and the revelation of his true family, Karna faced an agonizing decision.  Ultimately, he chose to honor his friendship with Duryodhana, accepting the consequences of his choice. This decision, however, triggered a curse bestowed upon him by his guru, Parasurama, which would render his celestial weapons useless in his final battle.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5:  The Final Confrontation: Karna vs. Arjuna',
+                                details: "The Karna Parva culminates in the epic final confrontation between Karna and Arjuna, two of the greatest archers in Hindu mythology.  This chapter, filled with breathtaking descriptions of archery skill and celestial weaponry, showcases the pinnacle of martial prowess.  The duel is not only a physical battle but also a clash of ideologies, representing the struggle between dharma and adharma.",
+                                story: "The day of the final battle arrived.  Karna and Arjuna, two warriors bound by destiny and rivalry, faced each other on the battlefield.  The clash of their arrows shook the very heavens.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6:  Karna\'s Death and the Wheel of Fate',
+                                details: "As the battle reaches its peak, Karna's chariot wheel becomes stuck in the mud, a consequence of a curse bestowed upon him earlier in his life.  Bound by his word and principles, Karna refuses to fight unfairly and attempts to free his chariot.  In this vulnerable moment, and with the curse of Parasurama taking effect, making him forget his most potent weapons, Karna is killed by Arjuna.  Karna's death, a poignant blend of heroism, tragedy, and the inexorable nature of fate, leaves a lasting impact on the narrative.",
+                                story: "As the battle raged, a curse from the past took effect, and Karna's chariot wheel sunk into the earth.  Bound by his word, Karna refused to fight while at a disadvantage and attempted to free his chariot.  In this vulnerable moment, as the curse of Parasurama robbed him of his most potent weapons, Karna faced his end at the hands of Arjuna.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7:  The Legacy of Karna',
+                                details: "The Karna Parva concludes with a sense of loss and reflection as the battlefield mourns the death of a hero.  Despite fighting on the side perceived as adharma, Karna's unwavering principles, his numerous acts of charity, and his unwavering friendship continue to be admired.  His death paves the way for the Pandavas' victory but also leaves a void, highlighting the complexities of war and the human cost of conflict.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                              id: 9,
+                        title: 'Shalya Parva (The Book of Shalya)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1F4N2T6-igXrqGPUpheX59DveI9qjwWZ7w&usqp=CAU',
+                        summary: "The Shalya Parva, the ninth book in the epic Mahabharata, chronicles the latter half of the Kurukshetra War, focusing on Shalya, the king of Madra, who reluctantly becomes the fourth commander-in-chief of the Kaurava army.  This parva, named after Shalya, captures the desperation of the Kauravas, the growing weariness of war, and the unfolding of events that lead to Duryodhana's downfall.  With Karna's death, the Kauravas face imminent defeat.  Shalya, initially tricked into joining the Kaurava side, reluctantly agrees to lead the dwindling army.   The Shalya Parva is marked by a sense of inevitability as the Pandavas gain the upper hand, their victory seeming all but certain.  Despite facing overwhelming odds, Shalya, a skilled warrior and charioteer, leads the Kaurava army with courage and determination, attempting to salvage a losing battle.  The narrative portrays the tragic consequences of war, as both sides suffer heavy losses, and the battlefield becomes a testament to the futility of violence.  One of the most poignant events in this parva is the death of Shakuni, Duryodhana's cunning and manipulative uncle, who had played a pivotal role in instigating the war.  Shakuni's death, a fitting end to a character driven by deceit and vengeance, further weakens the Kaurava forces.  The Shalya Parva sets the stage for the final showdown between Duryodhana and Bhima, the culmination of their long-standing rivalry.  The parva ends on a note of anticipation and dread, as Duryodhana, consumed by anger and despair, prepares to face his destiny.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: Shalya, the Reluctant Commander', 
+                                details: "Following Karna's death, the Kauravas find themselves leaderless and demoralized.  Duryodhana, desperate for a capable commander, approaches Shalya, the king of Madra, known for his prowess as a warrior and charioteer.  Through a combination of trickery and persuasion, Shalya is made to believe that he is joining the Pandava side but is ultimately bound by his word to lead the Kaurava army.",
+                                story: "The loss of Karna dealt a heavy blow to the Kauravas, leaving them rudderless and on the verge of despair.  Duryodhana, in a desperate attempt to salvage the situation, turned to Shalya, the king of Madra and a formidable warrior, to lead his dwindling forces.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2:  Shalya\'s Leadership and the Declining Morale',
+                                details: "Despite being tricked into joining the Kaurava side and facing insurmountable odds, Shalya takes command of the army and attempts to boost their dwindling morale.  He displays strategic acumen and courage on the battlefield, attempting to counter the Pandava's relentless advance.  This chapter highlights Shalya's sense of duty, his skills as a warrior, and the challenges he faces in leading a demoralized and defeated army.",
+                                story: "Bound by his word, Shalya reluctantly assumed command of the Kaurava army.  Despite the dwindling morale and the overwhelming might of the Pandava forces, Shalya led with courage and determination, hoping to salvage some honor from the impending defeat.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3:  The Death of Shakuni',
+                                details: "As the war rages on, Shakuni, Duryodhana's cunning and manipulative uncle, meets his end.  Shakuni, who had been instrumental in instigating the war through his deceit and gambling skills, becomes a target of the Pandava's wrath.  His death, a significant blow to the Kauravas, is seen as a victory for dharma and a testament to the consequences of deceit.",
+                                story: "The tide of the war had turned irrevocably.  Shakuni, Duryodhana's uncle and the mastermind behind the great conflict, met his end on the battlefield.  His death, a significant turning point in the war, marked the undoing of the Kauravas.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4:  Bhima\'s Vow and the Final Duel',
+                                details: "With the Kaurava army decimated, Duryodhana, consumed by rage and despair, becomes the final obstacle standing between the Pandavas and victory.  Bhima, who had sworn an oath to kill Duryodhana as revenge for the humiliation of Draupadi, challenges him to a final duel.  This chapter sets the stage for the climactic confrontation, a duel that will decide the fate of the war and fulfill Bhima's long-held vow.",
+                                story: "Duryodhana, fueled by rage and despair, became the last bastion of resistance against the Pandavas.  Bhima, driven by his oath to avenge the humiliation suffered by Draupadi, challenged Duryodhana to a final duel, a fight to the death that would determine the outcome of the war.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5:  Shalya\'s Wisdom and the Weight of Duty',
+                                details: "As Duryodhana prepares for his final battle, Shalya, bound by his oath, becomes his charioteer.  Recognizing the futility of the situation, Shalya attempts to reason with Duryodhana, urging him to seek peace and surrender to the inevitable.  His words, filled with wisdom and a sense of resignation, reflect the weariness of war and the tragic consequences of clinging to pride and vengeance.",
+                                story: "As Duryodhana prepared to face Bhima in the final duel, Shalya, bound by his word, became Duryodhana's charioteer.  Seeing the futility of the situation, Shalya tried to reason with Duryodhana, urging him to choose peace over certain death, but his pleas fell on deaf ears.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6:  The Fall of Duryodhana',
+                                details: "The Shalya Parva concludes with the long-awaited duel between Bhima and Duryodhana.  Fueled by years of animosity and bound by their oaths, the two warriors clash in a fierce and brutal battle.  Despite Shalya's attempts to guide and protect him, Duryodhana, weakened by his own rage and Bhima's relentless attacks, is fatally wounded.  Duryodhana's fall marks the end of the Kurukshetra War, paving the way for the Pandavas' victory and ushering in a new era.",
+                                story: "The final confrontation between Bhima and Duryodhana was a sight to behold.  The two warriors, locked in a battle fueled by years of animosity and vengeance, fought with unmatched ferocity.  In the end, Bhima, staying true to his oath, struck the fatal blow, ending Duryodhana's reign and securing victory for the Pandavas.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7:  The Aftermath and the Path Forward',
+                                details: "With the war finally over, the Shalya Parva reflects on the devastating consequences of the conflict.  The battlefield is littered with the bodies of fallen heroes from both sides, a stark reminder of the human cost of war.  The narrative highlights the bittersweet nature of victory, as the Pandavas, while triumphant, grapple with the loss of their loved ones and the daunting task of rebuilding a shattered kingdom.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                              id: 10,
+                        title: 'Sauptika Parva (The Book of the Sleeping Warriors)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR826ZmXZOn9YmeBaz0JmzgN8kzHZEU7fnThg&usqp=CAU',
+                        summary: "The Sauptika Parva, the tenth book in the epic Mahabharata, unveils a chilling and heart-wrenching episode that unfolds on the night following the Kurukshetra War's final battle.  This parva, named for the Sanskrit word 'sauptika,' meaning 'related to sleep' or 'surreptitious,' delves into the darkness and grief that engulf the battlefield as darkness descends.  With the Kaurava army vanquished and Duryodhana lying mortally wounded in a lake, the Pandavas, exhausted yet victorious, retire to their camp to rest after eighteen days of relentless fighting.  Unaware of Duryodhana's survival, they believe victory to be complete, unaware of the looming tragedy.  Asleep in their tents, the Pandava army is vulnerable.  Aswatthama, Drona's son and a fierce warrior driven by vengeance for his father's death, seeks revenge for the perceived injustice done to his father.  Fueled by rage and grief, he, along with Kripacharya and Kritavarma, two surviving Kaurava warriors, infiltrate the Pandava camp under the cover of darkness.  What follows is a horrific massacre.  Aswatthama, wielding celestial weapons, unleashes his fury on the unsuspecting and defenseless Pandava army.  Unable to differentiate between warriors and non-combatants in the darkness, he mercilessly kills sleeping warriors, their sons, and attendants.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1:  The Night of Sorrow', 
+                                details: "As the sun sets on the battlefield of Kurukshetra, a heavy silence descends.  The Pandavas, exhausted but victorious, retire to their camp, unaware of the horrors that await them in the darkness.  This chapter sets the stage for the tragic events that unfold, highlighting the vulnerability of the victors and the lingering shadows of war.",
+                                story: "With the fall of Duryodhana, a heavy silence settled over the battlefield of Kurukshetra.  The Pandavas, weary from the long war, returned to their camp, seeking solace in the embrace of sleep.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2:  Aswatthama\'s Vow',
+                                details: "Duryodhana, grievously wounded but clinging to life, appoints Aswatthama, the son of his fallen preceptor Drona, as the supreme commander of the remaining Kaurava forces.  Consumed by grief and rage over his father's death, Aswatthama vows to avenge the Kauravas, even if it means resorting to desperate measures.",
+                                story: "Duryodhana, clinging to life, appointed Aswatthama, the son of Drona, as the commander of the defeated army.  Consumed by grief and rage, Aswatthama swore to avenge the Kauravas.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3:  The Attack on the Sleeping Warriors',
+                                details: "Under the cover of darkness, Aswatthama, accompanied by Kripacharya and Kritavarma, infiltrate the Pandava camp, their hearts set on vengeance.  Armed with celestial weapons, they launch a horrific attack on the unsuspecting and defenseless Pandava warriors, who are sound asleep in their tents.",
+                                story: "As darkness enveloped the Pandava camp, Aswatthama, accompanied by Kripacharya and Kritavarma, infiltrated their encampment.  Guided by vengeance, they unleashed their fury upon the sleeping warriors.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4:  The Carnage and the Lamentations',
+                                details: "Aswatthama, consumed by blind rage, spares no one in the Pandava camp.  Warriors, their sons, and attendants are mercilessly slaughtered in their sleep.  The chapter paints a chilling picture of the massacre, the cries of the dying, and the river of blood that flows through the once-victorious camp.",
+                                story: "The night echoed with the cries of the dying as Aswatthama, blinded by rage, massacred the sleeping Pandava army.  The once-victorious camp transformed into a river of blood and sorrow.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5:  The Pandavas\' Grief',
+                                details: "Awakening to the horrific aftermath of the massacre, the Pandavas are overcome with grief and anguish.  The sight of their slain sons, brothers, and comrades fills them with unbearable sorrow and a thirst for revenge against the perpetrators of this heinous act.",
+                                story: "Dawn broke, revealing the full horror of Aswatthama's actions.  The Pandavas awoke to a scene of unimaginable carnage, their hearts shattered by the loss of their loved ones.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6:  The Pursuit of Aswatthama',
+                                details: "Enraged and heartbroken, the Pandavas, led by Arjuna, set out to hunt down Aswatthama and bring him to justice.  Their pursuit leads them to the ashrama of Vyasa, where Aswatthama has sought refuge.  A confrontation ensues, charged with anger, grief, and the weight of the atrocities committed.",
+                                story: "Driven by grief and a thirst for justice, the Pandavas pursued Aswatthama, their hearts heavy with the weight of his betrayal and the loss of their loved ones.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7:  Justice and Forgiveness',
+                                details: "Despite the magnitude of his crimes, Aswatthama is not killed.  Instead, he is cursed by Krishna to wander the earth for 3,000 years, bearing the burden of his sins.  This chapter explores the complexities of justice and forgiveness in the face of unimaginable loss and suffering.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                              id: 11,
+                        title: 'Stri Parva (The Book of Women)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4nDGNo4o9cSzgsU6iNaI4SaMOjzptrrQkTGqUAYdg99tcgGlcnEtN6bpR&s=10',
+                        summary: "The Stri Parva, the eleventh book in the epic Mahabharata, stands as a poignant testament to the profound suffering and resilience of women in the aftermath of war.  This parva, named for the Sanskrit word 'stri,' meaning 'woman,' delves into the depths of grief that envelops the women of both the Pandava and Kaurava families as they mourn the loss of their fathers, husbands, sons, and brothers.  With the Kurukshetra War's echoes still reverberating through their lives, the women emerge from the shadows of the battlefield to confront the devastating consequences of the conflict.  The Stri Parva is a departure from the previous ten parvas, shifting the narrative's focus from the battlefield to the inner lives of women who have endured unimaginable loss.  The parva opens with Gandhari, the matriarch of the Kaurava family and Dhritarashtra's wife, leading a procession of grieving women to the battlefield.  The sight of the slain warriors, their bodies broken and bloodied, unleashes a wave of anguish and lamentation.  Gandhari, overcome with grief and rage, curses Krishna, blaming him for not preventing the war and holding him responsible for the death of her hundred sons.  Her curse, laden with the weight of her sorrow, foretells Krishna's own tragic end and the eventual destruction of his Yadava clan.  The Stri Parva is not just a chronicle of grief; it's a testament to the strength and resilience of women in the face of adversity.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: Journey to the Battlefield', 
+                                details: "As dawn breaks, revealing the war's gruesome aftermath, King Dhritarashtra, accompanied by the women of his household, embarks on a somber journey to the battlefield of Kurukshetra.  Led by Gandhari, the blindfolded queen and matriarch of the Kauravas, they prepare to confront the devastating reality of their loss.",
+                                story: "The first rays of dawn illuminated the grisly aftermath of war. King Dhritarashtra, his heart heavy with grief, prepared to visit the battlefield.  Alongside him stood the women of his lineage, their faces veiled in sorrow, ready to bid farewell to their loved ones.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: Lamentations on the Battlefield',
+                                details: "The sight of the slain warriors, their bodies mutilated beyond recognition, unleashes a torrent of grief among the women.  Each wife, mother, and sister identifies their loved ones, their cries of anguish echoing across the desolate battlefield.  Gandhari's lament for her hundred sons is particularly heart-wrenching, her grief threatening to consume her.",
+                                story: "The air grew thick with sorrow as the women arrived at the battlefield.  The sight of their fallen husbands, sons, and fathers, their bodies ravaged by war, unleashed a wave of lamentation.  Gandhari, her blindfold stained with tears, mourned the loss of her hundred sons, her voice a symphony of agony.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: Gandhari\'s Curse',
+                                details: "Overcome by grief and rage, Gandhari directs her anger toward Krishna, accusing him of allowing the war to happen and holding him responsible for the death of her sons.  In her sorrow, she curses Krishna, predicting that he, too, will witness the destruction of his clan and die a painful death.",
+                                story: "Consummated by grief, Gandhari pointed her finger at Krishna, accusing him of being a mere spectator to the war, allowing her sons to perish.  Her voice cracked with sorrow and rage as she cursed him, foretelling the downfall of his own clan and a painful, solitary death.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Funeral Pyres',
+                                details: "As the magnitude of the tragedy sinks in, the task of cremating the fallen begins.  The air becomes heavy with the smell of sandalwood and smoke as countless funeral pyres are lit.  The chapter captures the heartbreaking rituals of death and the finality of loss.",
+                                story: "The immensity of the loss settled upon them as the pyres were lit.  The air, heavy with the scent of sandalwood and burning flesh, carried the mourners' cries towards the heavens.  Countless pyres flickered in the night, marking the finality of death and the start of an arduous journey of healing.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5:  Kunti\'s Revelation',
+                                details: "In a moment of startling revelation, Kunti, the mother of the Pandavas, reveals a closely guarded secret – Karna's true parentage.  She discloses that Karna, the valiant warrior who sided with the Kauravas, was her firstborn, abandoned at birth out of fear and societal pressure.",
+                                story: "Amidst the shared grief, Kunti, the mother of the Pandavas, revealed a secret that left everyone speechless.  Karna, the noble warrior who had fought alongside the Kauravas, was her firstborn son, abandoned at birth.  The revelation added another layer of tragedy to the already somber atmosphere.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6:  Yudhishthira\'s Coronation',
+                                details: "Following the traditional mourning period, Yudhishthira, the eldest of the Pandavas, ascends to the throne of Hastinapura.  Despite their victory, the Pandavas are burdened by the heavy price of war and the task of rebuilding their shattered kingdom.",
+                                story: "As the mourning period ended, Yudhishthira, the rightful heir, ascended to the throne of Hastinapura.  Yet, victory felt like ashes in their mouths.  The kingdom lay in ruins, a grim reminder of the war's devastating toll.  The road ahead promised challenges as daunting as any battle they had fought.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Women\'s Strength',
+                                details: "As the kingdom heals, the Stri Parva highlights the strength and resilience of the women as they navigate their grief and rebuild their lives.  Their stories serve as a reminder of the enduring power of the human spirit, even in the face of overwhelming loss.",
+                                story: "From the ashes of war, the women rose, their spirits unbroken.  They carried the weight of their grief with stoicism, finding strength in their shared loss and determination to rebuild their shattered lives.  Their stories stood as a testament to the enduring power of the human spirit, its ability to heal and find hope even in the face of unspeakable tragedy.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                },
+                {
+                  id: 12,
+                        title: 'Shanti Parva (The Book of Peace)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpj3hCX2BXhRc1iZfWwuU3TIkdjW2MkzUOgQ&usqp=CAU',
+                        summary: "The Shanti Parva, the twelfth book in the epic Mahabharata, marks a significant shift in tone and theme from the preceding parvas.  Following the catastrophic Kurukshetra War, which left countless dead and a kingdom in ruins, the Shanti Parva delves into the multifaceted aspects of peace, reconciliation, and righteous governance.  This parva, named for the Sanskrit word 'shanti,' meaning 'peace,' transcends the mere cessation of hostilities and explores the deeper philosophical and spiritual dimensions of attaining true peace within oneself and society.  As Yudhishthira, the eldest of the Pandavas, ascends the throne of Hastinapura, he grapples with the profound guilt and sorrow that weigh heavily upon his conscience.  The horrors of the war he waged to reclaim his rightful kingdom haunt him, leaving him yearning for solace and guidance.  Recognizing Yudhishthira's inner turmoil, Bhishma, his great-uncle and a revered elder, lying on his deathbed of arrows, imparts profound wisdom and teachings.  The Shanti Parva becomes a discourse on dharma (righteousness), artha (purpose), kama (desire), and moksha (liberation).",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Weight of Victory', 
+                                details: "In the aftermath of the Kurukshetra War, Yudhishthira, the newly crowned king of Hastinapura, finds himself burdened by the immense loss and destruction the war has wrought.  His guilt and sorrow are palpable as he grapples with the moral complexities of his actions.",
+                                story: "Yudhishthira, his brow creased with worry, surveyed the ruined city.  Victory tasted like ashes in his mouth.  The cost of war, the lives lost, and the destruction witnessed weighed heavily on his soul.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: Bhishma\'s Counsel',
+                                details: "Recognizing Yudhishthira's inner turmoil, Bhishma, his great-uncle and a repository of wisdom, lying on his deathbed of arrows, imparts profound teachings on dharma, artha, kama, and moksha.  His discourse forms the crux of the Shanti Parva.",
+                                story: "Bhishma, his frail voice echoing wisdom gathered over lifetimes, beckoned Yudhishthira to his side.  From his bed of arrows, he shared ancient knowledge, guiding the grief-stricken king on the path of righteousness and inner peace.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3:  The Duties of a King',
+                                details: "Bhishma elucidates the duties and responsibilities of a righteous king, emphasizing the importance of justice, compassion, and wisdom in governance.  He stresses that a king's primary duty is to ensure the well-being of his subjects.",
+                                story: "Bhishma, with a gentle yet firm voice, spoke of a king's true dharma.  It wasn't about power or conquest but about serving his people, ensuring justice prevailed, and prosperity reigned.  A king's duty, he emphasized, was to be a shepherd to his flock, leading them with wisdom and compassion.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Path of Dharma',
+                                details: "This chapter delves into the intricacies of dharma, exploring its various facets and its importance in individual and societal life.  Bhishma highlights the subtle nuances of righteous conduct and the challenges of adhering to dharma in a world filled with complexities.",
+                                story: "Bhishma wove intricate tales, illustrating the complexities of dharma.  It wasn't a rigid set of rules, he explained, but a path guided by conscience, compassion, and an understanding of the interconnectedness of all beings.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: The Science of Government',
+                                details: "Bhishma provides detailed instructions on statecraft, encompassing diplomacy, warfare, economics, and social welfare.  He emphasizes the need for a balanced approach to governance, integrating ethical considerations with practical strategies.",
+                                story: "From diplomacy to warfare, taxation to trade, Bhishma laid bare the intricate workings of statecraft.  Balance, he emphasized, was paramount.  A kingdom, like a chariot, needed each wheel to be strong and aligned for it to function smoothly.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: The Pursuit of Moksha',
+                                details: "As Bhishma's discourse nears its end, he guides Yudhishthira on the path of moksha, liberation from the cycle of birth and death.  He emphasizes the importance of self-realization, detachment, and devotion to the divine.",
+                                story: "As the sun began its final descent, Bhishma spoke of moksha, the ultimate liberation.  He spoke of the impermanence of the material world and the eternal nature of the soul, urging Yudhishthira to seek solace in self-realization.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Legacy of Peace',
+                                details: "The Shanti Parva concludes with Bhishma's passing and Yudhishthira's resolve to rule according to his teachings.  The parva serves as a timeless treatise on peacebuilding, ethical leadership, and the pursuit of a just and compassionate society.",
+                                story: "Bhishma, his mortal journey complete, breathed his last, leaving behind a legacy of wisdom.  Yudhishthira, his heart heavy but his spirit resolute, vowed to honor his great-uncle's teachings, striving to build a kingdom where peace and dharma prevailed.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                              id: 13,
+                        title: 'Anushasana Parva (The Book of Instructions)',
+                        imageUrl: 'https://images.playground.com/ad012ea050794ec39e2f81e540d4ceff.jpeg',
+                        summary: "The Anushasana Parva, the thirteenth book in the epic Mahabharata, serves as a vast repository of wisdom, ethical guidelines, and philosophical discourses.  Following Bhishma's death and his profound teachings in the Shanti Parva, the Anushasana Parva delves deeper into the practical application of dharma in various aspects of life.  This parva, named for the Sanskrit word 'anushasana,' meaning 'instruction' or 'advice,' presents a comprehensive guide to righteous living, drawing upon the wisdom of sages and the experiences of the Mahabharata's characters.  As Yudhishthira prepares to embark on the path of righteous rulership, he seeks further guidance from Bhishma, who, despite his passing, continues to be a source of wisdom.  The Anushasana Parva becomes a platform for Bhishma's final teachings, addressing a wide range of topics relevant to individual conduct, social harmony, and spiritual growth.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Importance of Dana (Charity)', 
+                                details: "The Anushasana Parva commences with a discourse on the significance of dana, or charity.  Bhishma emphasizes that true charity stems not from a desire for recognition or reward but from a genuine compassion for those in need.  He outlines various forms of charity and their benefits.",
+                                story: "Bhishma, his ethereal voice resonating with wisdom, spoke of dana, the act of giving.  True charity, he explained, wasn't merely about material wealth; it encompassed kindness, empathy, and a willingness to alleviate suffering in all its forms.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: The Duties of Varnas (Social Classes)',
+                                details: "This chapter delves into the duties and responsibilities associated with the four varnas: Brahmanas (priests and teachers), Kshatriyas (warriors and rulers), Vaishyas (merchants and farmers), and Shudras (laborers).  Bhishma emphasizes that each varna plays a crucial role in maintaining social harmony.",
+                                story: "Addressing the complexities of society, Bhishma spoke of the varnas, the social classes.  Each varna, he explained, had a unique role to play, contributing to the overall well-being of the kingdom.  Harmony, he stressed, arose from each individual fulfilling their dharma.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Power of Penance',
+                                details: "The Anushasana Parva highlights the transformative power of penance (tapasya).  Bhishma narrates tales of individuals who, through rigorous penance, attained great spiritual heights and even altered their destinies.  He emphasizes that true penance requires unwavering focus, self-discipline, and a pure heart.",
+                                story: "Through captivating tales, Bhishma revealed the power of tapasya, the practice of penance.  It was a path of self-purification, he explained, a means to overcome limitations and connect with the divine.  True penance, he stressed, demanded unwavering commitment and a pure heart.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Path of Yoga',
+                                details: "This chapter introduces the concept of yoga as a means to attain liberation.  Bhishma outlines different paths of yoga, including Karma Yoga (the yoga of action), Bhakti Yoga (the yoga of devotion), and Jnana Yoga (the yoga of knowledge), emphasizing that the ultimate goal of yoga is to unite the individual soul with the Supreme Soul.",
+                                story: "Bhishma spoke of yoga, the path to union with the divine.  He described various yogic paths, each suited to different temperaments.  Whether through selfless action, unwavering devotion, or pursuit of knowledge, the goal remained the same - to transcend limitations and realize the true nature of the Self.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: The Nature of Time',
+                                details: "The Anushasana Parva delves into the philosophical concept of time (kala), describing its all-pervading nature and its role in shaping destinies.  Bhishma emphasizes the importance of utilizing time wisely and not succumbing to procrastination or regret.",
+                                story: "Time, Bhishma declared, was the ultimate witness, the silent force that governed all creation.  He urged Yudhishthira to value time, to act with purpose, and to live in the present, for the past was gone, and the future, uncertain.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: The Importance of Self-Control',
+                                details: "This chapter focuses on the significance of self-control (dama) in leading a righteous and fulfilling life.  Bhishma emphasizes that conquering one's senses and desires is essential for spiritual progress and inner peace.",
+                                story: "Bhishma stressed the importance of dama, the mastery over one's senses.  Like a charioteer controlling unruly horses, one must rein in their desires, he explained.  Self-control, he emphasized, was the key to true freedom and lasting happiness.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Legacy of Wisdom',
+                                details: "The Anushasana Parva concludes with Bhishma's final teachings, emphasizing the importance of leading a life guided by dharma, seeking knowledge, and practicing compassion.  His words serve as a beacon of wisdom, not just for Yudhishthira but for all those seeking to live a righteous and meaningful life.",
+                                story: "As Bhishma's ethereal form began to fade, he left Yudhishthira with these parting words:  'May your reign be guided by dharma, your actions by compassion, and your life by the pursuit of knowledge.  Remember, true victory lies not in conquest but in conquering oneself.'",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                              id: 14,
+                        title: 'Ashvamedhika Parva (The Book of the Horse Sacrifice)',
+                        imageUrl: 'https://pbs.twimg.com/media/GQahLilbUAAs4Yn.png',
+                        summary: "The Ashvamedhika Parva, the fourteenth book in the epic Mahabharata, recounts the performance of the Ashvamedha Yagna (horse sacrifice) by Yudhishthira, the Pandava king.  This parva, named for the Sanskrit word 'ashvamedha,' literally meaning 'horse sacrifice,' delves into the complexities of kingship, dharma, and the pursuit of power in ancient India.  The Ashvamedha Yagna, an elaborate Vedic ritual, served as a powerful symbol of imperial authority and righteous conquest.  By successfully conducting this sacrifice, a king proclaimed his sovereignty over vast territories and demonstrated his adherence to dharma.  However, the Ashvamedhika Parva goes beyond the mere description of the ritual, exploring the moral dilemmas and consequences associated with such displays of power.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Decision for the Sacrifice', 
+                                details: "The Ashvamedhika Parva commences with Yudhishthira expressing his desire to perform the Ashvamedha Yagna to assert his sovereignty and atone for the sins committed during the Kurukshetra War.  His brothers and advisors offer their perspectives on the complexities of such an undertaking.",
+                                story: "Yudhishthira, seeking to re-establish peace and order after the devastation of war, contemplated the ancient ritual of the Ashvamedha.  His court, assembled before him, buzzed with anticipation and apprehension, for the sacrifice was a potent symbol of power and a test of dharma.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: The Preparations and the Procession',
+                                details: "This chapter details the elaborate preparations for the Ashvamedha Yagna, including the selection of a pristine white horse, the assembly of learned priests, and the gathering of vast resources.  The horse is set free to wander for a year, accompanied by a formidable army, as a symbol of the king's unchallenged authority.",
+                                story: "A magnificent white steed, chosen for its purity and strength, was consecrated, becoming a symbol of the king's dominion.  As the horse embarked on its year-long journey, a vast procession of warriors, priests, and courtiers followed, their path a testament to Yudhishthira's growing influence.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Challenges and Conquests',
+                                details: "As the sacrificial horse roams freely, it encounters various kingdoms and rulers.  Some submit peacefully to Yudhishthira's authority, while others challenge his claim, leading to battles and displays of military prowess.  Arjuna, the Pandava hero, plays a pivotal role in subduing these challenges.",
+                                story: "The horse's path wasn't without obstacles.  Proud kings and ambitious rulers rose to challenge Yudhishthira's claim.  Arjuna, his arrows swift and true, defended the horse's honor, his victories reinforcing the Pandava's might.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Return and the Sacrifice',
+                                details: "After a year, the sacrificial horse returns to Hastinapura, having traversed vast territories.  The successful completion of its journey paves the way for the grand sacrifice.  Elaborate rituals are performed, offerings are made to the gods, and hymns are chanted, signifying Yudhishthira's righteous kingship.",
+                                story: "The horse's return, a year later, heralded a time of great celebration.  Yudhishthira, surrounded by his brothers and advisors, presided over the grand sacrifice.  The air crackled with the chanting of hymns, the aroma of sacred offerings, and the hopes of a prosperous future.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: The Debate on Dharma',
+                                details: "Despite the successful completion of the Ashvamedha Yagna, the Ashvamedhika Parva does not shy away from raising ethical questions about the nature of righteous conquest and the potential for violence even in a righteous cause.  Sages and advisors engage in debates, exploring the complexities of dharma and the consequences of actions.",
+                                story: "Yet, amidst the triumph, doubt lingered.  Sages and advisors, their brows furrowed, debated the true meaning of dharma.  Was it merely about following rituals, or did it demand a deeper understanding of compassion and the futility of violence?",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: The Stories Within',
+                                details: "Embedded within the Ashvamedhika Parva are numerous sub-stories and narratives that offer moral and philosophical insights.  These stories often run parallel to the main narrative, providing different perspectives on dharma, karma, and the human condition.",
+                                story: "As the parva unfolded, it wove a tapestry of tales - stories of valor and sacrifice, love and betrayal, echoing the complexities of life itself.  Each story, a lesson, a reflection on the choices that shape our destinies.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 7, 
+                                title: 'Chapter 7: The Legacy of the Sacrifice',
+                                details: "The Ashvamedhika Parva concludes with the aftermath of the sacrifice and its impact on Yudhishthira's reign.  The parva leaves the reader contemplating the multifaceted nature of power, the enduring relevance of dharma, and the challenges of righteous rulership.",
+                                story: "The Ashvamedha, a testament to power and piety, became a part of Yudhishthira's legacy.  Yet, the true measure of his reign, the parva seemed to suggest, lay not in the grand spectacle of the sacrifice but in his unwavering commitment to dharma, even in the face of adversity.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                              id: 15,
+                        title: 'Ashramavasika Parva (The Book of the Forest Exile)',
+                        imageUrl: 'https://www.wisdomlib.org/uploads/bookheaders/900x515/mahabharata-4141-1-20240320135956.jpg',
+                        summary: "The Ashramavasika Parva, the fifteenth book in the epic Mahabharata, marks a period of profound grief, introspection, and spiritual growth for Dhritarashtra, the blind king of Hastinapura.  This parva, named for the Sanskrit word 'ashramavasika,' meaning 'dwelling in a hermitage,' depicts Dhritarashtra's journey of renunciation and his attempts to find solace in the wilderness after the devastating Kurukshetra War.  Having lost his hundred sons, the Kauravas, to the Pandavas in the war, Dhritarashtra is consumed by grief and remorse.  Unable to bear the weight of his sorrow and haunted by the consequences of his actions, he decides to relinquish his worldly ties and embrace a life of asceticism.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Departure', 
+                                details: "The Ashramavasika Parva commences with Dhritarashtra's decision to renounce the world.  Accompanied by his loyal wife, Gandhari, and his brother-in-law, Vidura, he embarks on a journey to the forest, seeking solace and spiritual guidance.",
+                                story: "The weight of sorrow hung heavy on Dhritarashtra's heart as he took those first steps into the forest.  The once mighty king, now a frail figure clad in simple robes, sought refuge in the embrace of nature, his grief a constant companion.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: Life in the Hermitage',
+                                details: "This chapter portrays the austere life that Dhritarashtra, Gandhari, and Vidura adopt in the forest.  They dwell in a simple hermitage, subsisting on fruits and roots, and engaging in meditation and spiritual practices.",
+                                story: "Gone were the luxuries of the palace.  Dhritarashtra, his senses subdued, embraced the simplicity of forest life.  Each day was spent in contemplation, seeking solace in the whispers of the wind and the murmur of the stream.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Visit of the Pandavas',
+                                details: "The Pandavas, having established their rule in Hastinapura, visit Dhritarashtra in the forest.  They seek his blessings and forgiveness for the pain caused during the war.  This encounter is filled with emotional complexities, as both sides grapple with the weight of their shared history.",
+                                story: "The arrival of the Pandavas stirred a storm of emotions within Dhritarashtra.  He saw in their faces the reflection of his lost sons, a painful reminder of the war's toll.  Yet, amidst the grief, there was a glimmer of understanding, a yearning for reconciliation.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Teachings of Vyasa',
+                                details: "The sage Vyasa, author of the Mahabharata, visits Dhritarashtra and imparts spiritual teachings to him.  Vyasa emphasizes the importance of detachment, acceptance, and the transient nature of life.",
+                                story: "Vyasa's words, imbued with wisdom and compassion, offered a balm to Dhritarashtra's wounded soul.  The sage spoke of the impermanence of life, the cyclical nature of joy and sorrow, urging the blind king to seek solace in the eternal truths.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: The Forest Fire',
+                                details: "Tragedy strikes as a forest fire engulfs the hermitage, killing Dhritarashtra, Gandhari, and their companions.  This event, while tragic, is also seen as a symbolic release for Dhritarashtra, freeing him from the cycle of sorrow.",
+                                story: "The forest fire, a raging inferno, consumed everything in its path.  Dhritarashtra, Gandhari, and their companions, engulfed in flames, met their end.  Some saw it as a tragic accident, others as a final act of purification, a release from the burdens of their past.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: The Legacy of Grief',
+                                details: "The Ashramavasika Parva, while marked by sorrow, serves as a testament to the transformative power of grief and the importance of seeking solace in spiritual pursuits.  Dhritarashtra's journey, though fraught with pain, offers valuable insights into the human condition.",
+                                story: "The Ashramavasika Parva, a somber chapter in the epic tale, leaves a lingering sense of loss and acceptance.  Dhritarashtra's journey, a poignant reminder of the enduring power of grief, also speaks to the human capacity for resilience and the enduring search for meaning in the face of adversity.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                              id: 16,
+                        title: 'Mausala Parva (The Book of the Clubs)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMSTsompVy1nUs-0gjyLTqBEAWcohQ8s21fIsCs1Bu1hk0-HpjT7fhrJ0&s=10',
+                        summary: "The Mausala Parva, the sixteenth book in the epic Mahabharata, marks a tragic and tumultuous end to the lineage of the Yadavas, the clan to which Krishna belonged. This parva, named for the Sanskrit word 'mausala,' meaning 'club,' recounts the internecine destruction of the Yadavas, foreshadowing the end of an era and the eventual departure of Krishna from the mortal realm.  Set years after the Kurukshetra War, the Mausala Parva reveals a curse that befalls the Yadavas, leading to their self-destruction.  The curse, a consequence of their accumulated karma and acts of hubris, sets in motion a chain of events that culminates in their tragic demise.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Curse and the Portent', 
+                                details: "The Mausala Parva begins with a group of sages cursing the Yadavas, prophesying their annihilation due to their pride and transgressions.  Ominous signs and portents foreshadow the impending doom, creating an atmosphere of unease and apprehension.",
+                                story: "A palpable tension settled over the city of Dwaraka, the Yadava capital.  Whispers of a curse, a dreadful prophecy foretold by angered sages, spread like wildfire.  The Yadavas, their hearts heavy with foreboding, sensed the winds of change, a gathering storm that threatened to shatter their world.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: The Seeds of Discord',
+                                details: "Internal conflicts and rivalries fester among the Yadavas, fueled by pride, intoxication, and a disregard for their elders.  Krishna, aware of the curse and its implications, attempts to guide his kinsmen toward restraint and righteousness, but his warnings go largely unheeded.",
+                                story: "The curse, it seemed, had taken root within the Yadava hearts.  Once a united clan, bound by kinship and loyalty, they now turned on each other, their unity shattered by suspicion and resentment.  Krishna, his heart heavy with sorrow, watched as his kinsmen, blinded by pride and folly, marched towards their doom.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Brawl and the Massacre',
+                                details: "A seemingly trivial dispute among the Yadavas escalates into a full-blown brawl, leading to their self-destruction.  Armed with clubs made from the cursed 'eraka' grass, the Yadavas turn on each other in a frenzy of violence, fulfilling the prophecy.",
+                                story: "What began as a petty squabble, fueled by wine and arrogance, quickly spiraled into chaos.  The Yadavas, their reason eclipsed by rage, seized clubs of the cursed 'eraka' grass, their touch deadly, their fury unstoppable.  The once-proud city of Dwaraka became a battleground, the air thick with the stench of blood and the cries of the dying.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: Krishna\'s Departure',
+                                details: "With the annihilation of the Yadavas, Krishna's purpose in the mortal world nears its end.  He sends his charioteer, Daruka, to inform Arjuna of the events and instructs him to escort the remaining Yadava women and children to safety.",
+                                story: "Amidst the carnage, Krishna stood, a solitary figure, his heart heavy with grief.  The curse had run its course, his clan decimated by their own hand.  His time in the mortal realm was drawing to a close.  With a heavy heart, he dispatched Daruka, his trusted charioteer, to inform Arjuna of the tragedy, entrusting him with the safety of the surviving Yadavas.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: The Passing of an Era',
+                                details: "The Mausala Parva concludes with the passing of Krishna, marking the end of an era.  The parva underscores the cyclical nature of time, the inevitability of death, and the consequences of karma, even for those considered divine.",
+                                story: "The world seemed to hold its breath as Krishna, the divine strategist, the charioteer of Arjuna, the embodiment of wisdom and compassion, breathed his last.  The Mausala Parva, a tale of destruction and despair, serves as a poignant reminder of the transient nature of existence, the inevitable ebb and flow of time, and the enduring power of destiny.",
+                                showDetails: false
+                            }
+                        ],
+                        showSummary: false
+                              },
+                              {
+                        id: 17,
+                        title: 'Mahaprasthanika Parva (The Book of the Great Journey)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKC6UMVwUvGrym-5I77iRL_PgT34cW4GGgMkiCc0WqB8H_6Am3C__rvcFK&s=10',
+                        summary: "The Mahaprasthanika Parva, the seventeenth book in the epic Mahabharata, marks a poignant turning point as the Pandavas, having ruled Hastinapura for 36 years after the Kurukshetra War, decide to relinquish their earthly possessions and embark on their final journey towards the Himalayas. This parva, named for the Sanskrit word 'mahaprasthana,' meaning 'great departure,' is a testament to the transient nature of life and the pursuit of liberation.  With their hearts filled with a sense of fulfillment and detachment, the Pandavas, accompanied by their faithful wife, Draupadi, set out on a pilgrimage towards the celestial abode, signifying their transition from the material world to the spiritual realm.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Call of the Mountains', 
+                                details: "The Mahaprasthanika Parva commences with Yudhishthira, the eldest Pandava, expressing his desire to renounce the world and embark on the great journey.  The Pandavas, having witnessed the cyclical nature of life and the futility of worldly attachments, feel the pull of the Himalayas, symbolizing their yearning for spiritual liberation.",
+                                story: "A profound silence had descended upon the court of Hastinapura.  Yudhishthira, his brow creased with contemplation, addressed his brothers, his voice echoing with a newfound detachment.  The time had come, he declared, to heed the call of the mountains, to embark on the Mahaprasthana, the great journey towards their final destination.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: The Coronation of Parikshit',
+                                details: "Before embarking on their journey, the Pandavas appoint Parikshit, Arjuna's grandson, as the king of Hastinapura.  This act signifies the continuation of their lineage and the cyclical nature of rulership.",
+                                story: "With heavy hearts but unwavering resolve, the Pandavas prepared for their departure.  Parikshit, young and virtuous, was crowned king, his brow adorned with the weight of responsibility.  As the coronation ceremony concluded, a sense of bittersweet farewell permeated the air, marking the end of an era and the dawn of a new chapter in Hastinapura's history.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Farewell and the Departure',
+                                details: "The Pandavas, along with Draupadi, bid farewell to their loved ones and the citizens of Hastinapura.  Their departure is marked by an outpouring of grief and reverence from those who had witnessed their reign and their unwavering commitment to dharma.",
+                                story: "The city streets were thronged with people, their faces etched with sorrow as they watched the Pandavas make their way through the crowd.  Tears flowed freely as blessings were exchanged, farewells whispered, and promises made to uphold the legacy of righteousness that the Pandavas had so valiantly championed.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Ascent and the Trials',
+                                details: "As the Pandavas ascend the Himalayas, they face numerous challenges and temptations, testing their resolve and their commitment to their final goal. Each obstacle they encounter serves as a metaphor for the trials one faces on the spiritual path.",
+                                story: "The path ahead was arduous, winding its way through treacherous terrain and unforgiving weather.  Each step forward tested their physical and mental fortitude, their determination fueled by an unwavering faith and a yearning for liberation.  Yet, amidst the hardships, they found solace in their unity, their love for each other a beacon of hope in the face of adversity.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: The Fall of Draupadi',
+                                details: "One by one, the Pandavas falter and fall, unable to complete the journey in their human forms.  Draupadi is the first to succumb, her fall attributed to her pride and her partiality towards Arjuna.",
+                                story: "The mountain air grew thin, the path treacherous.  Draupadi, her steps faltering, stumbled and fell.  Her body, weakened by the arduous journey, gave way.  As she breathed her last, a solitary tear traced a path down her cheek, a testament to the weight of her unfulfilled desires.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 6, 
+                                title: 'Chapter 6: The Final Ascent and the Celestial Abode',
+                                details: "Yudhishthira, accompanied by a celestial dog, completes the journey and ascends to the heavens.  He is greeted by the gods and reunited with his brothers and Draupadi, who have been cleansed of their imperfections.  The Mahaprasthanika Parva concludes with the Pandavas attaining moksha, liberation from the cycle of birth and death.",
+                                story: "Yudhishthira, his heart heavy with grief but his spirit undimmed, pressed on, his resolve unwavering.  As he ascended higher, he could sense the ethereal realm drawing near.  And then, with a final surge of energy, he stepped into the celestial abode, bathed in the radiant glow of eternity, reunited at last with his beloved brothers and Draupadi, their souls cleansed, their spirits free.",
+                                showDetails: false
+                            },
+                        ],
+                        showSummary: false
+                    },
+                    {
+                        id: 18,
+                        title: 'Svargarohanika Parva (The Book of the Ascent to Heaven)',
+                        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb97-eE4O-23hvRmK5Onx4U9r2sgTrKWQy1g69ZqsqLQeQ-WpArhqIkLv3&s=10',
+                        summary: "The Svargarohanika Parva, the eighteenth and final book in the epic Mahabharata, provides a fitting epilogue to the saga, depicting the Pandavas' ascent to heaven and their attainment of ultimate liberation. This parva, named for the Sanskrit word 'svargarohana,' meaning 'ascent to heaven,' signifies the culmination of their arduous journey and the fulfillment of their dharma.  As Yudhishthira, the last remaining Pandava, ascends Mount Meru, he encounters various celestial beings and witnesses the consequences of karma, ultimately reuniting with his brothers and Draupadi in the celestial realm.",
+                        chapters: [
+                            { 
+                                id: 1, 
+                                title: 'Chapter 1: The Ascent of Yudhishthira', 
+                                details: "The Svargarohanika Parva begins with Yudhishthira, accompanied by a celestial dog, reaching the summit of Mount Meru, the mythical abode of the gods.  As he ascends, he is tested one last time by Indra, the king of the gods, who appears in disguise.",
+                                story: "A radiant glow enveloped Yudhishthira as he reached the summit of Mount Meru, his heart pounding with anticipation.  Suddenly, a figure materialized before him, his countenance both awe-inspiring and benevolent.  It was Indra, disguised as a humble sage, testing Yudhishthira's resolve one final time.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 2, 
+                                title: 'Chapter 2: The Celestial Chariot',
+                                details: "Indra reveals his true identity and offers Yudhishthira a ride in his celestial chariot to heaven.  However, Yudhishthira refuses to abandon the faithful dog that has accompanied him throughout his journey.",
+                                story: "Yudhishthira, his heart filled with compassion, refused to abandon the loyal dog that had stood by him through thick and thin.  Indra, pleased by Yudhishthira's unwavering righteousness, revealed his true identity and praised the Pandava king for his unwavering commitment to dharma.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 3, 
+                                title: 'Chapter 3: The Revelation of Dharma',
+                                details: "The dog transforms into Dharma, the god of righteousness, who blesses Yudhishthira for his unwavering adherence to virtue.  This episode highlights the importance of compassion and loyalty as integral aspects of dharma.",
+                                story: "To Yudhishthira's astonishment, the dog transformed into Dharma, the god of righteousness, his eyes twinkling with amusement.  Dharma praised Yudhishthira's unwavering commitment to virtue, declaring that his compassion and loyalty had earned him a place in the celestial realm.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 4, 
+                                title: 'Chapter 4: The Reunion in Heaven',
+                                details: "Yudhishthira ascends to heaven in Indra's chariot and is reunited with his brothers and Draupadi, who have already attained their celestial forms.  The reunion is bittersweet as Yudhishthira witnesses both the joys and sorrows of the afterlife.",
+                                story: "As Yudhishthira stepped into Indra's celestial chariot, a sense of profound peace washed over him.  He was greeted in heaven by his beloved brothers and Draupadi, their faces radiant with joy.  Yet, amidst the bliss, Yudhishthira felt a pang of sorrow as he realized that true happiness in the afterlife was intertwined with the consequences of one's actions in the mortal world.",
+                                showDetails: false
+                            },
+                            { 
+                                id: 5, 
+                                title: 'Chapter 5: The Final Liberation',
+                                details: "The Svargarohanika Parva concludes with Yudhishthira attaining moksha, liberation from the cycle of birth and death.  The epic ends on a note of hope and fulfillment, suggesting that true liberation is attainable through a life lived in accordance with dharma.",
+                                story: "Time seemed to cease to exist as Yudhishthira, his earthly ties severed, his soul cleansed of all impurities, attained moksha, the ultimate liberation from the cycle of birth and death.  The Mahabharata, a tapestry woven with threads of war and peace, love and loss, dharma and adharma, concludes with a message of hope, reminding humanity that true fulfillment lies in aligning one's life with the eternal principles of righteousness.",
+                                showDetails: false
+                            },
+                        ],
+                        showSummary: false
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+</html>
